@@ -1,0 +1,21 @@
+{
+  "name": "console-stamp",
+  "main": "main",
+  "version": "0.1.0",
+  "author": {
+      "name": "Ståle Raknes",
+      "email": "stale@raknes.net",
+      "url": "http://github.net/starak"
+  },
+  "description": "Patch NodeJS console methods in order to add timestamp information by pattern",
+  "keywords": [
+    "console",
+    "timestamp",
+    "log",
+    "debug"
+  ],
+  "license": "MIT",
+  "dependencies" : {
+    "dateformat" : "*"
+  }
+}
