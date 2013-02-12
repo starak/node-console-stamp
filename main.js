@@ -26,7 +26,7 @@ module.exports = function( con, pattern ) {
             var date = dateFormat( pattern ),
                 args = slice.call( arguments );
 
-            args.unshift( date );
+            typeof args[0] === "string" ? args[0] = date + " " + args[0] : args.unshift( date );
 
             return org.apply(con, args);
 
