@@ -1,3 +1,4 @@
+/*globals module:false, require:false, process:false*/
 /**
  *
  * Node Console stamp by Ståle Raknes
@@ -11,27 +12,30 @@
 
 var dateFormat = require( "dateformat" );
 
-module.exports = function( con, pattern ) {
+module.exports = function ( con, pattern ) {
 
-    if( con.__ts__ ){ return; }
+    "use strict";
+
+    if ( con.__ts__ ) {
+        return;
+    }
 
     var slice = Array.prototype.slice;
 
-    [ 'log', 'debug', 'info', 'warn', 'error' ].forEach( function(f){
+    [ 'log', 'info', 'warn', 'error', 'dir', 'assert' ].forEach( function ( f ) {
 
-        var org = con[f];
+        var org = con[ f ];
 
-        con[f] = function(){
+        con[f] = function () {
 
-            var date = dateFormat( pattern ),
+            var date = dateFormat( pattern ) + " ",
                 args = slice.call( arguments );
 
-            typeof args[0] === "string" ? args[0] = date + " " + args[0] : args.unshift( date );
-
-            return org.apply(con, args);
+            process.stdout.write( date );
+            return org.apply( con, args );
 
         };
-    });
+    } );
 
     con.__ts__ = true;
 
