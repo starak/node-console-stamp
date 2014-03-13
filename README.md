@@ -11,7 +11,7 @@ Patch Node.js console methods in order to add timestamp information by pattern.
 ### Patching the console ###
 
 	// Patch console.x methods in order to add timestamp information
-	require("console-stamp")(console, "HH:mm:ss.l");
+	require("console-stamp")(console, "HH:MM:ss.l");
 	
 	console.log("Hello World!");
 	// -> 14:02:48.062 Hello World!
