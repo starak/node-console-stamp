@@ -28,7 +28,7 @@ module.exports = function ( con, pattern ) {
 
         con[f] = function () {
 
-            var date = dateFormat( pattern ) + " ",
+            var date = "["+dateFormat( pattern ) + "] [" + f.toUpperCase() + "] ",
                 args = slice.call( arguments );
 
             process.stdout.write( date );
