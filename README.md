@@ -14,11 +14,11 @@ Patch Node.js console methods in order to add timestamp information by pattern.
 	require("console-stamp")(console, "HH:MM:ss.l");
 	
 	console.log("Hello World!");
-	// -> 14:02:48.062 Hello World!
+	// -> [14:02:48.062] [LOG] Hello World!
 	
 	var port = 8080;
 	console.log("Server running at port %d", port);
-	// -> 16:02:35.325 Server running at port 8080
+	// -> [16:02:35.325] [LOG] Server running at port 8080
 	
 ### Example
 
@@ -34,33 +34,34 @@ Patch Node.js console methods in order to add timestamp information by pattern.
 
 Result:
 
-	20:01:27.500 LOG
-	20:01:27.504 INFO
-	20:01:27.504 WARN
-	20:01:27.504 ERROR
-	20:01:27.504 { bar: 'console.dir' }
-	20:01:27.508 Trace
-    	at Object.<anonymous> (/Users/starak/code/node-console-stamp/test.js:14:9)
-    	at Module._compile (module.js:456:26)
-    	at Object.Module._extensions..js (module.js:474:10)
-    	at Module.load (module.js:356:32)
-    	at Function.Module._load (module.js:312:12)
-    	at Function.Module.runMain (module.js:497:10)
-    	at startup (node.js:119:16)
-    	at node.js:901:3
-	20:01:27.510 MyTimer: 10ms
-	20:01:27.510
-	AssertionError: Count is > 10
-    	at Console.assert (console.js:102:23)
-    	at Console.con.(anonymous function) [as assert] (/Users/starak/code/node-console-stamp/main.js:35:24)
-    	at Object.<anonymous> (/Users/starak/code/node-console-stamp/test.js:16:9)
-    	at Module._compile (module.js:456:26)
-    	at Object.Module._extensions..js (module.js:474:10)
-    	at Module.load (module.js:356:32)
-    	at Function.Module._load (module.js:312:12)
-    	at Function.Module.runMain (module.js:497:10)
-    	at startup (node.js:119:16)
-    	at node.js:901:3
+    [20:04:05.969] [LOG] LOG
+    [20:04:05.972] [INFO] INFO
+    [20:04:05.972] [WARN] WARN
+    [20:04:05.972] [ERROR] ERROR
+    [20:04:05.972] [DIR] { bar: 'console.dir' }
+    [20:04:05.975] [ERROR] Trace
+        at Object.<anonymous> (/Users/starak/code/node-console-stamp/test.js:14:9)
+        at Module._compile (module.js:456:26)
+        at Object.Module._extensions..js (module.js:474:10)
+        at Module.load (module.js:356:32)
+        at Function.Module._load (module.js:312:12)
+        at Function.Module.runMain (module.js:497:10)
+        at startup (node.js:119:16)
+        at node.js:906:3
+    [20:04:05.975] [LOG] MyTimer: 6ms
+    [20:04:05.976] [ASSERT]
+    AssertionError: Count is > 10
+        at Console.assert (console.js:102:23)
+        at Console.con.(anonymous function) [as assert] (/Users/starak/code/node-console-stamp/main.js:35:24)
+        at Object.<anonymous> (/Users/starak/code/node-console-stamp/test.js:16:9)
+        at Module._compile (module.js:456:26)
+        at Object.Module._extensions..js (module.js:474:10)
+        at Module.load (module.js:356:32)
+        at Function.Module._load (module.js:312:12)
+        at Function.Module.runMain (module.js:497:10)
+        at startup (node.js:119:16)
+        at node.js:906:3
+
 
 See more about timestamp patterns at [felixges][felixge] excellent [dateformat][dateformat]
 
