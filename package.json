@@ -1,25 +1,25 @@
 {
-  "name": "console-stamp",
-  "main": "main",
-  "version": "0.1.4",
-  "author": {
-      "name": "Ståle Raknes",
-      "email": "stale@raknes.net",
-      "url": "http://github.net/starak"
-  },
-  "description": "Patch NodeJS console methods in order to add timestamp information by pattern",
-  "keywords": [
-    "console",
-    "timestamp",
-    "log",
-    "debug"
-  ],
-  "repository" : {
-    "type" : "git",
-    "url" : "http://github.com/starak/node-console-stamp.git"
-  },
-  "license": "MIT",
-  "dependencies" : {
-    "dateformat" : "1.0.7-1.2.3"
-  }
+    "name": "console-stamp",
+    "main": "main",
+    "version": "0.1.5-DEV",
+    "author": {
+        "name": "Ståle Raknes",
+        "email": "stale@raknes.net",
+        "url": "http://github.net/starak"
+    },
+    "description": "Patch NodeJS console methods in order to add timestamp information by pattern",
+    "keywords": [
+        "console",
+        "timestamp",
+        "log",
+        "debug"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/starak/node-console-stamp.git"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "dateformat": "1.0.7-1.2.3"
+    }
 }

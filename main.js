@@ -22,16 +22,21 @@ module.exports = function ( con, pattern ) {
 
     var slice = Array.prototype.slice;
 
-    [ 'log', 'info', 'warn', 'error', 'dir', 'assert' ].forEach( function ( f ) {
+    ['log', 'info', 'warn', 'error', 'dir', 'assert'].forEach( function ( f ) {
 
-        var org = con[ f ];
+        var org = con[f];
 
         con[f] = function () {
 
-            var date = "["+dateFormat( pattern ) + "] [" + f.toUpperCase() + "] ",
+            var date = "[" + dateFormat( pattern ) + "] [" + f.toUpperCase() + "] ",
                 args = slice.call( arguments );
 
-            process.stdout.write( date );
+            if ( f === "error" || f === "warn" || ( f === "assert" && !args[0] ) ) {
+                process.stderr.write( date );
+            }else if(f !== "assert"){
+                process.stdout.write( date );
+            }
+
             return org.apply( con, args );
 
         };
