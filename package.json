@@ -1,7 +1,7 @@
 {
     "name": "console-stamp",
     "main": "main",
-    "version": "0.1.5-DEV",
+    "version": "0.1.5",
     "author": {
         "name": "Ståle Raknes",
         "email": "stale@raknes.net",
