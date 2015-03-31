@@ -40,7 +40,7 @@ module.exports = function ( con, pattern, prefix_metadata ) {
                   args = slice.call( arguments );
 
             if ( typeof prefix_metadata === 'function' ) {
-                prefix = prefix + prefix_metadata( args ) + ' ';
+                prefix = prefix + prefix_metadata( f, args ) + ' ';
             } else if ( typeof prefix_metadata === 'object' ) {
                 prefix = prefix + util.inspect( prefix_metadata ) + ' ';
             } else if ( typeof prefix_metadata !== 'undefined' ) {
