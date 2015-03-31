@@ -65,8 +65,9 @@ function test2(){
 // Basic test
 
 test();
+test('[' + process.pid + ']');
 test({pid: process.pid});
-test(function(){ return '['+process.pid+']'; });
+test(function(){ return '[' + sizefmt(process.memoryUsage().rss) + ']'; });
 test();
 
 // Persistence test
