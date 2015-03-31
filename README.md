@@ -62,6 +62,12 @@ Result:
         at startup (node.js:119:16)
         at node.js:906:3
 
+See more about timestamp patterns at [felixges][felixge] excellent [dateformat][dateformat]
+
+[dateformat]: https://github.com/felixge/node-dateformat
+[felixge]: https://github.com/felixge
+[FGRibreau]: https://github.com/FGRibreau/node-nice-console
+
 ### Adding Metadata ###
 
 Types can be String, Object (interpreted with util.inspect), or Function. See the test-metadata.js for examples.
@@ -74,7 +80,7 @@ Types can be String, Object (interpreted with util.inspect), or Function. See th
 
 Result:
 
-    [18:10:30.875] [LOG] [7785] Metadata applied
+    [18:10:30.875] [LOG] [7785] Metadata applied.
 
 ### Function example
 
@@ -86,10 +92,4 @@ Result:
 
 Result:
 
-    [18:10:30.875] [LOG] [14503936] Metadata applied
-
-See more about timestamp patterns at [felixges][felixge] excellent [dateformat][dateformat]
-
-[dateformat]: https://github.com/felixge/node-dateformat
-[felixge]: https://github.com/felixge
-[FGRibreau]: https://github.com/FGRibreau/node-nice-console
+    [18:10:30.875] [LOG] [14503936] Metadata applied.
