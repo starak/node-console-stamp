@@ -12,14 +12,14 @@ Patch Node.js console methods in order to add timestamp information by pattern.
 
 	// Patch console.x methods in order to add timestamp information
 	require("console-stamp")(console, "HH:MM:ss.l");
-	
+
 	console.log("Hello World!");
 	// -> [14:02:48.062] [LOG] Hello World!
-	
+
 	var port = 8080;
 	console.log("Server running at port %d", port);
 	// -> [16:02:35.325] [LOG] Server running at port 8080
-	
+
 ### Example
 
 	console.time( "MyTimer" );
@@ -62,6 +62,31 @@ Result:
         at startup (node.js:119:16)
         at node.js:906:3
 
+### Adding Metadata ###
+
+Types can be String, Object (interpreted with util.inspect), or Function. See the test-metadata.js for examples.
+
+### String example
+
+    require("console-stamp")(console, "HH:MM:ss.l", '[' + process.pid + ']');
+
+    console.log('Metadata applied.');
+
+Result:
+
+    [18:10:30.875] [LOG] [7785] Metadata applied
+
+### Function example
+
+    var util = require("util");
+
+    require("console-stamp")(console, "HH:MM:ss.l", function(){ return '[' + (process.memoryUsage().rss) + ']'; });
+
+    console.log('Metadata applied.');
+
+Result:
+
+    [18:10:30.875] [LOG] [14503936] Metadata applied
 
 See more about timestamp patterns at [felixges][felixge] excellent [dateformat][dateformat]
 
