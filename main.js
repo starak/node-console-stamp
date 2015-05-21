@@ -12,7 +12,7 @@
 
 var dateFormat = require( "dateformat" );
 
-module.exports = function ( con, pattern, prefix_metadata ) {
+module.exports = function ( con, pattern, prefix_metadata, excluded_methods ) {
 
     "use strict";
 
@@ -28,7 +28,11 @@ module.exports = function ( con, pattern, prefix_metadata ) {
 
     var slice = Array.prototype.slice;
 
-    ['log', 'info', 'warn', 'error', 'dir', 'assert'].forEach( function ( f ) {
+    var all_methods = ['log', 'info', 'warn', 'error', 'dir', 'assert'];
+    excluded_methods = excluded_methods || [];
+    var methods_to_change = all_methods.filter(function(i) {return excluded_methods.indexOf(i) < 0;});
+
+    methods_to_change.forEach( function ( f ) {
 
         original_functions.push( [ f, con[f] ] );
 
