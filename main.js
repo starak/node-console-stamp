@@ -1,50 +1,79 @@
-/*globals module:false, require:false, process:false*/
+/*jshint node:true, bitwise:false */
 /**
  *
  * Node Console stamp by Ståle Raknes
  *
- * Inspired by https://github.com/FGRibreau/node-nice-console
- *
- * Dependencies:
- * dateFormat by felixge, is to be found here: https://github.com/felixge/node-dateformat
- *
  */
 
+"use strict";
+
 var dateFormat = require( "dateformat" );
+var merge = require( "merge" );
+var colors = require( "colors" );
+var defaults = require( "./defaults.json" );
 
-module.exports = function ( con, pattern, prefix_metadata ) {
+module.exports = function ( con, options, prefix_metadata ) {
 
-    "use strict";
-
-    if ( con.__ts__ ) {
-        return;
+    // If the console is patched already, do nothing
+    if ( con.__ts__ && "restoreConsole" in con ) {
+        con.restoreConsole();
     }
 
+    var pattern;
+
+    if ( typeof options === "string" ) {
+        // Fallback to version 0.1.x
+        pattern = options;
+        options = merge( {}, defaults );
+    } else {
+        options = merge( {}, defaults, (options || {}) );
+        pattern = options.pattern;
+        prefix_metadata = prefix_metadata || options.metadata;
+    }
+
+    options.include = options.include.filter( function filter( m ) {
+        return !(~options.exclude.indexOf( m ));
+    } );
+
+    // Set the color theme
+    colors.setTheme( options.colors );
+
     if ( typeof prefix_metadata === 'object' ) {
-        var util = require('util');
+        var util = require( 'util' );
     }
 
     var original_functions = [];
 
     var slice = Array.prototype.slice;
 
-    ['log', 'info', 'warn', 'error', 'dir', 'assert'].forEach( function ( f ) {
+    options.include.forEach( function ( f ) {
 
-        original_functions.push( [ f, con[f] ] );
+        original_functions.push( [f, con[f]] );
 
         var org = con[f];
 
         con[f] = function () {
 
-            var prefix = "[" + dateFormat( pattern ) + "] [" + f.toUpperCase() + "] ",
-                  args = slice.call( arguments );
+            var prefix = ("[" + dateFormat( pattern ) + "]").stamp + " ";
+            var args = slice.call( arguments );
 
+            // Add label if flag is set
+            if ( options.label ) {
+                prefix += ("[" + f.toUpperCase() + "]").label + "      ".substr( f.length );
+            }
+
+            // Add metadata if any
+            var metadata = "";
             if ( typeof prefix_metadata === 'function' ) {
-                prefix = prefix + prefix_metadata( f, args ) + ' ';
+                metadata = prefix_metadata( f, args );
             } else if ( typeof prefix_metadata === 'object' ) {
-                prefix = prefix + util.inspect( prefix_metadata ) + ' ';
+                metadata = util.inspect( prefix_metadata );
             } else if ( typeof prefix_metadata !== 'undefined' ) {
-                prefix = prefix + prefix_metadata + ' ';
+                metadata = prefix_metadata;
+            }
+
+            if ( metadata ) {
+                prefix += metadata.metadata + " ";
             }
 
             if ( f === "error" || f === "warn" || ( f === "assert" && !args[0] ) ) {

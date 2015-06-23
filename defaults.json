@@ -1,0 +1,11 @@
+{
+  "pattern": "HH:MM:ss.l",
+  "include": ["log", "info", "warn", "error", "dir", "assert"],
+  "exclude": [],
+  "label": true,
+  "colors": {
+    "stamp":[],
+    "label":[],
+    "metadata":[]
+  }
+}

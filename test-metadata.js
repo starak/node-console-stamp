@@ -47,7 +47,7 @@ function test2(){
       };
    })();
    var test = function(){
-      require("./main")(console, "HH:MM:ss.l", showMemoryUsage);
+      require("./main")(console, null, showMemoryUsage);
       console.info("Reading 50MB...");
       // Read in 10MB
       var buffer = new require('buffer').Buffer(50000000);
