@@ -12,27 +12,36 @@ Patch Node.js console methods in order to add timestamp information by pattern.
 
 	require("console-stamp")(console, [options]);
 
+### console
+The console it self.
+
 #### options {Object}
 
 From version 2.0 the second parameter is an object with several options. As a backward compatibillity feature this parameter can be a string, but this is deprecated. 
 
-* options.pattern {String}<br>A string with date format based on [Javascript Date Format](http://blog.stevenlevithan.com/archives/date-time-format)<br>Default: "ddd mmm dd yyyy HH:MM:ss"
+* options.pattern {String}<br>A string with date format based on [Javascript Date Format](http://blog.stevenlevithan.com/archives/date-time-format)<br>**Default**: "ddd mmm dd yyyy HH:MM:ss"
 
-* options.label {Boolean}<br>If true it will show the label (LOG|INFO|WARN|ERROR)<br>Default: true
+* options.label {Boolean}<br>If true it will show the label (LOG | INFO | WARN | ERROR)<br>**Default**: true
 
-* options.include {Array}<br>An array containing the methods to include in the patch<br>Default: ["log", "info", "warn", "error", "dir", "assert"]
+* options.include {Array}<br>An array containing the methods to include in the patch<br>**Default**: ["log", "info", "warn", "error", "dir", "assert"]
 
-* options.exclude {Array}<br>An array containing the methods to include in the patch<br>Default: [] \(none)
+* options.exclude {Array}<br>An array containing the methods to include in the patch<br>**Default**: [] \(none)
 
-* metadata {String/Object/Function}<br>Types can be String, Object (interpreted with util.inspect), or Function. See the test-metadata.js for examples.
+* metadata {String/Object/Function}<br>Types can be String, Object (interpreted with util.inspect), or Function. See the test-metadata.js for examples.<br>**Default**: undefined
+ 
+* options.colors {Object}<br>An object representing a color theme. More info [here](https://www.npmjs.com/package/colors).
 
-* options.colors {Object}<br>An object representing a color theme
+    * options.colors.stamp {String/Array} <br>**Default:** []
 
-    * options.colors.stamp {String/Array}
+    * options.colors.label {String/Array} <br>**Default:** []
 
-    * options.colors.label {String/Array}
+    * options.colors.metadata {String/Array} <br>**Default:** []
 
-    * options.colors.metadata {String/Array}
+Note: To combine colors, bgColors and style, set them as an array like this:
+
+	...
+		stamp: ["black", "bgYellow", "underline"]
+	... 
 
 
 ### Example
@@ -63,6 +72,28 @@ Result:
 	[26/06/2015 12:44:31.779] [ERROR] This is a console.error message
 	[26/06/2015 12:44:31.779] [DIR]   { bar: 'This is a console.dir message' }
 
+and
+
+	require( "console-stamp" )( console, {
+    	metadata: function () {
+        	return ("[" + process.memoryUsage().rss + "]");
+    	},
+    	colors: {
+        	stamp: ["black", "bgYellow", "underline"],
+        	label: "white",
+        	metadata: "green"
+    	}
+	} );
+	
+	console.log( "This is a console.log message" );
+    console.info( "This is a console.info message" );
+    console.warn( "This is a console.warn message" );
+    console.error( "This is a console.error message" );
+    console.dir( {bar: "This is a console.dir message"} );
+	
+Result:
+
+![Console](gfx/console.png)
 
 ### Adding Metadata ###
 
