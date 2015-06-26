@@ -11,10 +11,11 @@ var dateFormat = require( "dateformat" );
 var merge = require( "merge" );
 var colors = require( "colors" );
 var defaults = require( "./defaults.json" );
+var util = require( 'util' );
 
 module.exports = function ( con, options, prefix_metadata ) {
 
-    // If the console is patched already, do nothing
+    // If the console is patched already, restore it
     if ( con.__ts__ && "restoreConsole" in con ) {
         con.restoreConsole();
     }
@@ -32,15 +33,11 @@ module.exports = function ( con, options, prefix_metadata ) {
     }
 
     options.include = options.include.filter( function filter( m ) {
-        return !(~options.exclude.indexOf( m ));
+        return !~options.exclude.indexOf( m );
     } );
 
     // Set the color theme
     colors.setTheme( options.colors );
-
-    if ( typeof prefix_metadata === 'object' ) {
-        var util = require( 'util' );
-    }
 
     var original_functions = [];
 

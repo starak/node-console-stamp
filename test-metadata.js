@@ -25,9 +25,9 @@ function test(metadata) {
    var format = "HH:MM:ss.l";
    console.log('Test with metadata', metadata);
    if ( typeof metadata !== 'undefined' ) {
-      require("./main")(console, format, metadata);
+      require("./main")(console, {pattern:format, metadata:metadata});
    } else {
-      require("./main")(console, format);
+      require("./main")(console, {pattern:format});
    }
    console.log('Metadata applied');
    console.restoreConsole();
@@ -47,7 +47,7 @@ function test2(){
       };
    })();
    var test = function(){
-      require("./main")(console, null, showMemoryUsage);
+      require("./main")(console, {metadata:showMemoryUsage});
       console.info("Reading 50MB...");
       // Read in 10MB
       var buffer = new require('buffer').Buffer(50000000);

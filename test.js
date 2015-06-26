@@ -1,18 +1,18 @@
 /*jshint node:true*/
 "use strict";
 
-var human_readable = require("filesize");
-var write = function(txt){
-    process.stdout.write(txt + "\n");
+var human_readable = require( "filesize" );
+var write = function ( txt ) {
+    process.stdout.write( txt + "\n" );
 };
-var cs = require( "./main" );
+var console_stamp = require( "./main" );
 
 function run() {
-    console.log( "LOG" );
-    console.info( "INFO" );
-    console.warn( "WARN" );
-    console.error( "ERROR" );
-    console.dir( {bar: "console.dir"} );
+    console.log( "This is a console.log message" );
+    console.info( "This is a console.info message" );
+    console.warn( "This is a console.warn message" );
+    console.error( "This is a console.error message" );
+    console.dir( {bar: "This is a console.dir message"} );
     write( "  " );
 }
 
@@ -20,81 +20,80 @@ write( "No patching" );
 run();
 
 write( "Patched with defaults" );
-cs( console );
+console_stamp( console );
 run();
 
 write( "Patched with 1.x pattern as string and some metadata" );
-cs( console, "dd/mm/yyyy HH:MM:ss.l", "METADATA" );
+console_stamp( console, "dd/mm/yyyy HH:MM:ss.l", "METADATA" );
 run();
 
 write( "Patched with new 2.x object literal options parameter, with pattern" );
-cs( console, {
-    pattern: "dd/mm/yyyy HH:MM:ss.l",
-    colors: {
-        label: ["white"]
-    }
+console_stamp( console, {
+    pattern: "dd/mm/yyyy HH:MM:ss.l"
 } );
 run();
 
 write( "Patched with defaults, but no label" );
-cs( console, {
+console_stamp( console, {
     label: false
 } );
 run();
 
 write( "Patched with defaults and metadata" );
-cs( console, {
+console_stamp( console, {
     metadata: "[" + process.pid + "]"
 } );
 run();
 
 write( "Patched with include parameter set to: ['log', 'info']" );
-cs( console, {
+console_stamp( console, {
     include: ["log", "info"]
 } );
 run();
 
 write( "Patched with exclude parameter set to: ['log', 'info']" );
-cs( console, {
+console_stamp( console, {
     exclude: ["log", "info"]
 } );
 run();
 
 write( "Patched with advanced metadata and color theme" );
-cs( console, {
-    metadata: function (  ) {
-        return ("[" + human_readable(process.memoryUsage().rss) + "]");
+console_stamp( console, {
+    metadata: function () {
+        return ("[" + human_readable( process.memoryUsage().rss ) + "]");
     },
     colors: {
-        label: ["white"],
         stamp: ["yellow"],
+        label: ["white"],
         metadata: ["green"]
     }
 } );
 run();
 
 // Use some memory
-var size = 50000000;
-write("Reading " + human_readable(size) + "...");
-var fs = require("fs");
-var Buffer = require('buffer').Buffer;
-var buffer = new Buffer(size);
-var fd = fs.openSync('/dev/urandom', 'r');
-fs.readSync(fd, buffer, 0, buffer.length, 0);
-fs.closeSync(fd);
-write("Finished reading (memory usage should be different).");
+var size = 5000000;
+write( "Reading " + human_readable( size ) + "..." );
+var fs = require( "fs" );
+var Buffer = require( 'buffer' ).Buffer;
+var buffer = new Buffer( size );
+var fd = fs.openSync( '/dev/urandom', 'r' );
+fs.readSync( fd, buffer, 0, buffer.length, 0 );
+fs.closeSync( fd );
+
+write( "Finished reading (memory usage should be different)." );
 
 write( "Patched with advanced metadata and color theme" );
-cs( console, {
-    metadata: function (  ) {
-        return ("[" + human_readable(process.memoryUsage().rss) + "]");
+console_stamp( console, {
+    metadata: function () {
+        return ("[" + human_readable( process.memoryUsage().rss ) + "]");
     },
     colors: {
         stamp: "blue",
+        label: ["white"],
         metadata: "green"
     }
 } );
 run();
 
-cs( console );
+console_stamp( console );
 

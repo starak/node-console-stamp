@@ -1,5 +1,5 @@
 {
-  "pattern": "HH:MM:ss.l",
+  "pattern": "",
   "include": ["log", "info", "warn", "error", "dir", "assert"],
   "exclude": [],
   "label": true,
