@@ -15,34 +15,36 @@ Patch Node.js console methods in order to add timestamp information by pattern.
 ### console
 The console it self.
 
-#### options {Object}
+#### options {Object|String}
 
-From version 2.0 the second parameter is an object with several options. As a backward compatibillity feature this parameter can be a string, but this is deprecated. 
+From version 2.0 the second parameter is an object with several options. As a backward compatibillity feature this parameter can be a string containing the pattern. 
 
-* options.pattern {String}<br>A string with date format based on [Javascript Date Format](http://blog.stevenlevithan.com/archives/date-time-format)<br>**Default**: "ddd mmm dd yyyy HH:MM:ss"
+* **options.pattern** {String}<br>A string with date format based on [Javascript Date Format](http://blog.stevenlevithan.com/archives/date-time-format)<br>**Default**: "ddd mmm dd yyyy HH:MM:ss"
 
-* options.label {Boolean}<br>If true it will show the label (LOG | INFO | WARN | ERROR)<br>**Default**: true
+* **options.label** {Boolean}<br>If true it will show the label (LOG | INFO | WARN | ERROR)<br>**Default**: true
 
-* options.include {Array}<br>An array containing the methods to include in the patch<br>**Default**: ["log", "info", "warn", "error", "dir", "assert"]
+* **options.include** {Array}<br>An array containing the methods to include in the patch<br>**Default**: ["log", "info", "warn", "error", "dir", "assert"]
 
-* options.exclude {Array}<br>An array containing the methods to include in the patch<br>**Default**: [] \(none)
+* **options.exclude** {Array}<br>An array containing the methods to include in the patch<br>**Default**: [] \(none)
 
-* metadata {String/Object/Function}<br>Types can be String, Object (interpreted with util.inspect), or Function. See the test-metadata.js for examples.<br>**Default**: undefined
+* **metadata** {String/Object/Function}<br>Types can be String, Object (interpreted with util.inspect), or Function. See the test-metadata.js for examples.<br>**Default**: undefined
  
-* options.colors {Object}<br>An object representing a color theme. More info [here](https://www.npmjs.com/package/colors).
+* **options.colors** {Object}<br>An object representing a color theme. More info [here](https://www.npmjs.com/package/colors).
 
-    * options.colors.stamp {String/Array} <br>**Default:** []
+    * **options.colors.stamp** {String/Array} <br>**Default:** []
 
-    * options.colors.label {String/Array} <br>**Default:** []
+    * **options.colors.label** {String/Array} <br>**Default:** []
 
-    * options.colors.metadata {String/Array} <br>**Default:** []
+    * **options.colors.metadata** {String/Array} <br>**Default:** []
 
 Note: To combine colors, bgColors and style, set them as an array like this:
 
 	...
 		stamp: ["black", "bgYellow", "underline"]
 	... 
+Note also that by sending the parameter `--no-color` when you start your node app, will prevent any colors from console.
 
+	$ node my-app.js --no-color
 
 ### Example
 
@@ -79,7 +81,7 @@ and
         	return ("[" + process.memoryUsage().rss + "]");
     	},
     	colors: {
-        	stamp: ["black", "bgYellow", "underline"],
+        	stamp: "yellow",
         	label: "white",
         	metadata: "green"
     	}
