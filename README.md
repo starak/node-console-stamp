@@ -1,6 +1,6 @@
 # console-stamp
 
-Patch Node.js console methods in order to add timestamp information by pattern.
+This module enables you to patch the console's methods in Node.js, to add timestamp prefix based on a given string pattern, and more...
 
 ## Usage ##
 
@@ -12,8 +12,8 @@ Patch Node.js console methods in order to add timestamp information by pattern.
 
 	require("console-stamp")(console, [options]);
 
-### console
-The console it self.
+#### console
+The console itself.
 
 #### options {Object|String}
 
@@ -27,7 +27,7 @@ From version 2.0 the second parameter is an object with several options. As a ba
 
 * **options.exclude** {Array}<br>An array containing the methods to include in the patch<br>**Default**: [] \(none)
 
-* **metadata** {String/Object/Function}<br>Types can be String, Object (interpreted with util.inspect), or Function. See the test-metadata.js for examples.<br>**Default**: undefined
+* **options.metadata** {String/Object/Function}<br>Types can be String, Object (interpreted with util.inspect), or Function. See the test-metadata.js for examples.<br>**Note** that metadata can still be sent as the third parameter (as in vesion 1.6) as a backward compatibillity feature, but this is deprecated. <br>**Default**: undefined
  
 * **options.colors** {Object}<br>An object representing a color theme. More info [here](https://www.npmjs.com/package/colors).
 
@@ -99,9 +99,10 @@ Result:
 
 ### Adding Metadata ###
 
-Types can be String, Object (interpreted with util.inspect), or Function. See the test-metadata.js for examples.
+Types can be string, object (interpreted with util.inspect), or function. 
+See the [test-metadata.js](https://github.com/starak/node-console-stamp/blob/master/test-metadata.js) for examples.
 
-### String example
+#### String example
 
     require("console-stamp")(console, {
         pattern:"HH:MM:ss.l", 
@@ -114,7 +115,7 @@ Result:
 
     [26/06/2015 12:44:31.779] [LOG] [7785] Metadata applied.
 
-### Function example
+#### Function example
 
     var util = require("util");
 
