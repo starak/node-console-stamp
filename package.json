@@ -1,44 +1,45 @@
 {
-  "name": "console-stamp",
-  "main": "main",
-  "version": "0.2.0-RC1",
-  "author": {
-    "name": "Ståle Raknes",
-    "email": "stale@raknes.net",
-    "url": "http://github.com/starak"
-  },
-  "contributors": [
-    {
-      "name": "Ståle Raknes",
-      "url": "http://github.com/starak"
+    "name": "console-stamp",
+    "main": "main",
+    "version": "0.2.0-RC1",
+    "author": {
+        "name": "Ståle Raknes",
+        "email": "stale@raknes.net",
+        "url": "http://github.com/starak"
     },
-    {
-      "name": "Jotham Read",
-      "url": "https://github.com/jotham"
+    "contributors": [
+        {
+            "name": "Ståle Raknes",
+            "url": "http://github.com/starak"
+        },
+        {
+            "name": "Jotham Read",
+            "url": "https://github.com/jotham"
+        },
+        {
+            "name": "Christiaan Westerbeek",
+            "url": "https://github.com/devotis"
+        }
+    ],
+    "description": "Patch NodeJS console methods in order to add timestamp information by pattern",
+    "keywords": [
+        "console",
+        "timestamp",
+        "log",
+        "jslog",
+        "debug"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/starak/node-console-stamp.git"
     },
-    {
-      "name": "Christiaan Westerbeek",
-      "url": "https://github.com/devotis"
+    "license": "MIT",
+    "dependencies": {
+        "dateformat": "^1.0.11",
+        "merge": "^1.2.0",
+        "colors": "^1.1.2"
+    },
+    "devDependencies": {
+        "filesize": "^3.1.2"
     }
-  ],
-  "description": "Patch NodeJS console methods in order to add timestamp information by pattern",
-  "keywords": [
-    "console",
-    "timestamp",
-    "log",
-    "jslog",
-    "debug"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "http://github.com/starak/node-console-stamp.git"
-  },
-  "license": "MIT",
-  "dependencies": {
-    "dateformat": "^1.0.11",
-    "merge": "^1.2.0"
-  },
-  "devDependencies": {
-    "filesize": "^3.1.2"
-  }
 }
