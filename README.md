@@ -1,5 +1,13 @@
 # console-stamp
 
+[![npm][npm-image]][npm-url]
+[![downloads][downloads-image]][downloads-url]
+
+[npm-image]: https://img.shields.io/npm/v/console-stamp.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/console-stamp
+[downloads-image]: https://img.shields.io/npm/dm/console-stamp.svg?style=flat-square
+[downloads-url]: https://npmjs.org/package/console-stamp
+
 This module enables you to patch the console's methods in Node.js, to add timestamp prefix based on a given string pattern, and more...
 
 ## Usage ##
