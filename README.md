@@ -53,6 +53,7 @@ Note: To combine colors, bgColors and style, set them as an array like this:
 	
 
 Or chain Chalk functions like this:
+
 	...
 		stamp: require("chalk").red.bgYellow.underline;
 	... 
