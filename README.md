@@ -37,19 +37,28 @@ From version 2.0 the second parameter is an object with several options. As a ba
 
 * **options.metadata** {String/Object/Function}<br>Types can be String, Object (interpreted with util.inspect), or Function. See the test-metadata.js for examples.<br>**Note** that metadata can still be sent as the third parameter (as in vesion 1.6) as a backward compatibillity feature, but this is deprecated. <br>**Default**: undefined
  
-* **options.colors** {Object}<br>An object representing a color theme. More info [here](https://www.npmjs.com/package/colors).
+* **options.colors** {Object}<br>An object representing a color theme. More info [here](https://www.npmjs.com/package/chalk).
 
-    * **options.colors.stamp** {String/Array} <br>**Default:** []
+    * **options.colors.stamp** {String/Array<String>/Function} <br>**Default:** []
 
-    * **options.colors.label** {String/Array} <br>**Default:** []
+    * **options.colors.label** {String/Array<String>/Function} <br>**Default:** []
 
-    * **options.colors.metadata** {String/Array} <br>**Default:** []
+    * **options.colors.metadata** {String/Array<String>/Function} <br>**Default:** []
 
 Note: To combine colors, bgColors and style, set them as an array like this:
 
 	...
 		stamp: ["black", "bgYellow", "underline"]
 	... 
+	
+
+Or chain Chalk functions like this:
+
+	...
+		stamp: require("chalk").red.bgYellow.underline;
+	... 
+	
+
 Note also that by sending the parameter `--no-color` when you start your node app, will prevent any colors from console.
 
 	$ node my-app.js --no-color

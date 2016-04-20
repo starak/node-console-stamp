@@ -19,6 +19,10 @@
         {
             "name": "Christiaan Westerbeek",
             "url": "https://github.com/devotis"
+        },
+        {
+            "name": "Leon Lucardie",
+            "url": "https://github.com/Gameleon12"
         }
     ],
     "description": "Patch NodeJS console methods in order to add timestamp information by pattern",
@@ -37,7 +41,7 @@
     "dependencies": {
         "dateformat": "^1.0.11",
         "merge": "^1.2.0",
-        "colors": "^1.1.2"
+        "chalk": "^1.1.1"
     },
     "devDependencies": {
         "filesize": "^3.1.2"
