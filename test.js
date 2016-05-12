@@ -1,5 +1,7 @@
 /*jshint node:true*/
 "use strict";
+var moment = require('moment');
+moment.locale('ja');
 
 var human_readable = require( "filesize" );
 var write = function ( txt ) {
@@ -66,6 +68,18 @@ console_stamp( console, {
         stamp: ["yellow"],
         label: ["white"],
         metadata: ["green"]
+    }
+} );
+run();
+
+write( "Patched with new 2.x object literal options parameter, with custom formatter" );
+console_stamp( console, {
+    formatter:function(){
+        return moment().format("LLLL");
+    },
+    colors: {
+        stamp: ["blue"],
+        label: ["white"]
     }
 } );
 run();

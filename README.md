@@ -29,6 +29,8 @@ From version 2.0 the second parameter is an object with several options. As a ba
 
 * **options.pattern** {String}<br>A string with date format based on [Javascript Date Format](http://blog.stevenlevithan.com/archives/date-time-format)<br>**Default**: "ddd mmm dd yyyy HH:MM:ss"
 
+* **options.formatter** {Function}<br>A custom date formatter that should return a formmatted date string. 
+
 * **options.label** {Boolean}<br>If true it will show the label (LOG | INFO | WARN | ERROR)<br>**Default**: true
 
 * **options.include** {Array}<br>An array containing the methods to include in the patch<br>**Default**: ["log", "info", "warn", "error", "dir", "assert"]
@@ -113,6 +115,33 @@ and
 Result:
 
 ![Console](gfx/console.png)
+
+### Custom Formatter Example
+
+Custom forrmatter using moment.js
+
+    var moment = require('moment');
+    moment.locale('ja');
+    
+    require( "console-stamp" )( console, {
+        formatter:function(){
+            return moment().format("LLLL");
+        }
+    } );
+	
+	console.log( "This is a console.log message" );
+    console.info( "This is a console.info message" );
+    console.warn( "This is a console.warn message" );
+    console.error( "This is a console.error message" );
+    console.dir( {bar: "This is a console.dir message"} );
+	
+Result:
+
+    [2016年5月12日午前11時10分 木曜日] [LOG]   This is a console.log message
+    [2016年5月12日午前11時10分 木曜日] [INFO]  This is a console.info message
+    [2016年5月12日午前11時10分 木曜日] [WARN]  This is a console.warn message
+    [2016年5月12日午前11時10分 木曜日] [ERROR] This is a console.error message
+    [2016年5月12日午前11時10分 木曜日] [DIR]   { bar: 'This is a console.dir message' }
 
 ### Adding Metadata ###
 

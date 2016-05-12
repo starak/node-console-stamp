@@ -7,7 +7,7 @@
 
 "use strict";
 
-var dateFormat = require( "dateformat" );
+var defaultDateFormat = require( "dateformat" );
 var merge = require( "merge" );
 var chalk = require( "chalk" );
 var defaults = require( "./defaults.json" );
@@ -32,52 +32,50 @@ module.exports = function ( con, options, prefix_metadata ) {
         prefix_metadata = prefix_metadata || options.metadata;
     }
 
+    var dateFormat = options.formatter || defaultDateFormat;
+
     options.include = options.include.filter( function filter( m ) {
         return !~options.exclude.indexOf( m );
     } );
 
     //SET COLOR THEME START
-    var noColor = function(str){ return str; }; //Default behaviour (no color)
-    
-    var getColor = function(origColor)
-    {
+    var noColor = function ( str ) {
+        return str;
+    }; //Default behaviour (no color)
+
+    var getColor = function ( origColor ) {
         //If color is a chalk function already, just return it
-        if(typeof origColor === 'function')
-        {
+        if ( typeof origColor === 'function' ) {
             return origColor;
         }
         //If color is an string, check if a function in chalk exists
-        if(typeof origColor === 'string')
-        {
-            return chalk[""+origColor] ? chalk[""+origColor] : noColor;
+        if ( typeof origColor === 'string' ) {
+            return chalk["" + origColor] ? chalk["" + origColor] : noColor;
         }
         //If color is an array, check the contents for color strings
-        if(Array.isArray(origColor))
-        {
-            if(origColor.length > 0)
-            {
+        if ( Array.isArray( origColor ) ) {
+            if ( origColor.length > 0 ) {
                 var color = chalk;
-                for (var i = 0; i < origColor.length; i++) {
-                    if(typeof origColor[i] === 'string')
-                    {
-                        color = color[""+origColor[i]];
+                for ( var i = 0; i < origColor.length; i++ ) {
+                    if ( typeof origColor[i] === 'string' ) {
+                        color = color["" + origColor[i]];
                     }
                 }
                 return color;
             }
-            else{
+            else {
                 return noColor;
             }
         }
         return noColor;
-    }
-    
+    };
+
     var colorTheme = {};
-    colorTheme.stamp = getColor(options.colors.stamp);
-    colorTheme.label = getColor(options.colors.label);
-    colorTheme.metadata = getColor(options.colors.metadata);
+    colorTheme.stamp = getColor( options.colors.stamp );
+    colorTheme.label = getColor( options.colors.label );
+    colorTheme.metadata = getColor( options.colors.metadata );
     //SET COLOR THEME END
-    
+
     var original_functions = [];
 
     var slice = Array.prototype.slice;
@@ -90,12 +88,12 @@ module.exports = function ( con, options, prefix_metadata ) {
 
         con[f] = function () {
 
-            var prefix = colorTheme.stamp("[" + dateFormat( pattern ) + "]")+" ";
+            var prefix = colorTheme.stamp( "[" + dateFormat( pattern ) + "]" ) + " ";
             var args = slice.call( arguments );
 
             // Add label if flag is set
             if ( options.label ) {
-                prefix += colorTheme.label("[" + f.toUpperCase() + "]")+"      ".substr( f.length );
+                prefix += colorTheme.label( "[" + f.toUpperCase() + "]" ) + "      ".substr( f.length );
             }
 
             // Add metadata if any
@@ -109,7 +107,7 @@ module.exports = function ( con, options, prefix_metadata ) {
             }
 
             if ( metadata ) {
-                prefix += colorTheme.metadata(metadata) + " "; //Metadata
+                prefix += colorTheme.metadata( metadata ) + " "; //Metadata
             }
 
             if ( f === "error" || f === "warn" || ( f === "assert" && !args[0] ) ) {

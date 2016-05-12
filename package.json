@@ -1,7 +1,7 @@
 {
     "name": "console-stamp",
     "main": "main",
-    "version": "0.2.0",
+    "version": "0.2.2",
     "author": {
         "name": "Ståle Raknes",
         "email": "stale@raknes.net",
@@ -44,6 +44,7 @@
         "chalk": "^1.1.1"
     },
     "devDependencies": {
-        "filesize": "^3.1.2"
+        "filesize": "^3.1.2",
+        "moment": "^2.13.0"
     }
 }
