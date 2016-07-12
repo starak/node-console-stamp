@@ -26,13 +26,13 @@ function getAllowedLogFunctions( level ) {
     var logFunctions = [],
         levelPriority = levelPriorities[level];
 
-    for ( var logFunction in levelPriorities) {
-        if ( !levelPriorities.hasOwnProperty(logFunction) ) {
+    for ( var logFunction in levelPriorities ) {
+        if ( !levelPriorities.hasOwnProperty( logFunction ) ) {
             continue;
         }
 
         if ( levelPriority >= levelPriorities[logFunction] ) {
-            logFunctions.push(logFunction);
+            logFunctions.push( logFunction );
         }
     }
 
