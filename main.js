@@ -13,6 +13,32 @@ var chalk = require( "chalk" );
 var defaults = require( "./defaults.json" );
 var util = require( 'util' );
 
+var levelPriorities = {
+    log: 4,
+    info: 3,
+    warn: 2,
+    error: 1,
+    assert: 2,
+    dir: 4
+};
+
+function getAllowedLogFunctions( level ) {
+    var logFunctions = [],
+        levelPriority = levelPriorities[level];
+
+    for ( var logFunction in levelPriorities) {
+        if ( !levelPriorities.hasOwnProperty(logFunction) ) {
+            continue;
+        }
+
+        if ( levelPriority >= levelPriorities[logFunction] ) {
+            logFunctions.push(logFunction);
+        }
+    }
+
+    return logFunctions;
+}
+
 module.exports = function ( con, options, prefix_metadata ) {
 
     // If the console is patched already, restore it
@@ -34,8 +60,12 @@ module.exports = function ( con, options, prefix_metadata ) {
 
     var dateFormat = options.formatter || defaultDateFormat;
 
+    options.disable = options.disable.concat( getAllowedLogFunctions( options.level ) ).filter( function filter( item, i, array ) {
+        return array.indexOf( item ) === i;
+    } );
+
     options.include = options.include.filter( function filter( m ) {
-        return !~options.exclude.indexOf( m );
+        return !~options.exclude.indexOf( m ) && !~options.disable.indexOf( m );
     } );
 
     //SET COLOR THEME START
@@ -119,6 +149,14 @@ module.exports = function ( con, options, prefix_metadata ) {
             return org.apply( con, args );
 
         };
+    } );
+
+    options.disable.forEach( function ( f ) {
+
+        original_functions.push( [f, con[f]] );
+
+        con[f] = function () { };
+
     } );
 
     con.restoreConsole = function () {

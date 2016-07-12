@@ -2,6 +2,8 @@
   "pattern": "",
   "include": ["log", "info", "warn", "error", "dir", "assert"],
   "exclude": [],
+  "disable": [],
+  "level": "log",
   "label": true,
   "colors": {
     "stamp":[],

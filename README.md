@@ -37,6 +37,10 @@ From version 2.0 the second parameter is an object with several options. As a ba
 
 * **options.exclude** {Array}<br>An array containing the methods to exclude in the patch<br>**Default**: [] \(none)
 
+* **options.disable** {Array}<br>An array containing the methods to disable in the patch<br>**Default**: [] \(none)
+
+* **options.level** {String}<br>A string choosing the most verbose logging function to allow. Ordered/grouped as such: "log dir", "info", "warn assert", "error"<br>**Default**: log
+
 * **options.metadata** {String/Object/Function}<br>Types can be String, Object (interpreted with util.inspect), or Function. See the test-metadata.js for examples.<br>**Note** that metadata can still be sent as the third parameter (as in vesion 1.6) as a backward compatibillity feature, but this is deprecated. <br>**Default**: undefined
 
 * **options.colors** {Object}<br>An object representing a color theme. More info [here](https://www.npmjs.com/package/chalk).
