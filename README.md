@@ -14,22 +14,22 @@ This module enables you to patch the console's methods in Node.js, to add timest
 
 ### Install
 
-	npm install console-stamp
+    npm install console-stamp
 
 ### Patching the console
 
-	require("console-stamp")(console, [options]);
+    require("console-stamp")(console, [options]);
 
 #### console
 The console itself.
 
 #### options {Object|String}
 
-From version 2.0 the second parameter is an object with several options. As a backward compatibillity feature this parameter can be a string containing the pattern. 
+From version 2.0 the second parameter is an object with several options. As a backward compatibillity feature this parameter can be a string containing the pattern.
 
 * **options.pattern** {String}<br>A string with date format based on [Javascript Date Format](http://blog.stevenlevithan.com/archives/date-time-format)<br>**Default**: "ddd mmm dd yyyy HH:MM:ss"
 
-* **options.formatter** {Function}<br>A custom date formatter that should return a formmatted date string. 
+* **options.formatter** {Function}<br>A custom date formatter that should return a formmatted date string.
 
 * **options.label** {Boolean}<br>If true it will show the label (LOG | INFO | WARN | ERROR)<br>**Default**: true
 
@@ -37,8 +37,12 @@ From version 2.0 the second parameter is an object with several options. As a ba
 
 * **options.exclude** {Array}<br>An array containing the methods to exclude in the patch<br>**Default**: [] \(none)
 
+* **options.disable** {Array}<br>An array containing the methods to disable in the patch<br>**Default**: [] \(none)
+
+* **options.level** {String}<br>A string choosing the most verbose logging function to allow. Ordered/grouped as such: "log dir", "info", "warn assert", "error"<br>**Default**: log
+
 * **options.metadata** {String/Object/Function}<br>Types can be String, Object (interpreted with util.inspect), or Function. See the test-metadata.js for examples.<br>**Note** that metadata can still be sent as the third parameter (as in vesion 1.6) as a backward compatibillity feature, but this is deprecated. <br>**Default**: undefined
- 
+
 * **options.colors** {Object}<br>An object representing a color theme. More info [here](https://www.npmjs.com/package/chalk).
 
     * **options.colors.stamp** {String/Array<String>/Function} <br>**Default:** []
@@ -49,37 +53,37 @@ From version 2.0 the second parameter is an object with several options. As a ba
 
 Note: To combine colors, bgColors and style, set them as an array like this:
 
-	...
-		stamp: ["black", "bgYellow", "underline"]
-	... 
-	
+    ...
+        stamp: ["black", "bgYellow", "underline"]
+    ...
+
 
 Or chain Chalk functions like this:
 
-	...
-		stamp: require("chalk").red.bgYellow.underline;
-	... 
-	
+    ...
+        stamp: require("chalk").red.bgYellow.underline;
+    ...
+
 
 Note also that by sending the parameter `--no-color` when you start your node app, will prevent any colors from console.
 
-	$ node my-app.js --no-color
+    $ node my-app.js --no-color
 
 ### Example
 
-	// Patch console.x methods in order to add timestamp information
-	require( "console-stamp" )( console, { pattern : "dd/mm/yyyy HH:MM:ss.l" } );
+    // Patch console.x methods in order to add timestamp information
+    require( "console-stamp" )( console, { pattern : "dd/mm/yyyy HH:MM:ss.l" } );
 
-	console.log("Hello World!");
-	// -> [26/06/2015 14:02:48.062] [LOG] Hello World!
+    console.log("Hello World!");
+    // -> [26/06/2015 14:02:48.062] [LOG] Hello World!
 
-	var port = 8080;
-	console.log("Server running at port %d", port);
-	// -> [26/06/2015 16:02:35.325] [LOG] Server running at port 8080
+    var port = 8080;
+    console.log("Server running at port %d", port);
+    // -> [26/06/2015 16:02:35.325] [LOG] Server running at port 8080
 
 &nbsp;
 
-	console.log( "This is a console.log message" );
+    console.log( "This is a console.log message" );
     console.info( "This is a console.info message" );
     console.warn( "This is a console.warn message" );
     console.error( "This is a console.error message" );
@@ -88,30 +92,30 @@ Note also that by sending the parameter `--no-color` when you start your node ap
 Result:
 
     [26/06/2015 12:44:31.777] [LOG]   This is a console.log message
-	[26/06/2015 12:44:31.777] [INFO]  This is a console.info message
-	[26/06/2015 12:44:31.779] [WARN]  This is a console.warn message
-	[26/06/2015 12:44:31.779] [ERROR] This is a console.error message
-	[26/06/2015 12:44:31.779] [DIR]   { bar: 'This is a console.dir message' }
+    [26/06/2015 12:44:31.777] [INFO]  This is a console.info message
+    [26/06/2015 12:44:31.779] [WARN]  This is a console.warn message
+    [26/06/2015 12:44:31.779] [ERROR] This is a console.error message
+    [26/06/2015 12:44:31.779] [DIR]   { bar: 'This is a console.dir message' }
 
 and
 
-	require( "console-stamp" )( console, {
-    	metadata: function () {
-        	return ("[" + process.memoryUsage().rss + "]");
-    	},
-    	colors: {
-        	stamp: "yellow",
-        	label: "white",
-        	metadata: "green"
-    	}
-	} );
-	
-	console.log( "This is a console.log message" );
+    require( "console-stamp" )( console, {
+        metadata: function () {
+            return ("[" + process.memoryUsage().rss + "]");
+        },
+        colors: {
+            stamp: "yellow",
+            label: "white",
+            metadata: "green"
+        }
+    } );
+
+    console.log( "This is a console.log message" );
     console.info( "This is a console.info message" );
     console.warn( "This is a console.warn message" );
     console.error( "This is a console.error message" );
     console.dir( {bar: "This is a console.dir message"} );
-	
+
 Result:
 
 ![Console](gfx/console.png)
@@ -122,19 +126,19 @@ Custom forrmatter using moment.js
 
     var moment = require('moment');
     moment.locale('ja');
-    
+
     require( "console-stamp" )( console, {
         formatter:function(){
             return moment().format("LLLL");
         }
     } );
-	
-	console.log( "This is a console.log message" );
+
+    console.log( "This is a console.log message" );
     console.info( "This is a console.info message" );
     console.warn( "This is a console.warn message" );
     console.error( "This is a console.error message" );
     console.dir( {bar: "This is a console.dir message"} );
-	
+
 Result:
 
     [2016年5月12日午前11時10分 木曜日] [LOG]   This is a console.log message
@@ -145,13 +149,13 @@ Result:
 
 ### Adding Metadata ###
 
-Types can be string, object (interpreted with util.inspect), or function. 
+Types can be string, object (interpreted with util.inspect), or function.
 See the [test-metadata.js](https://github.com/starak/node-console-stamp/blob/master/test-metadata.js) for examples.
 
 #### String example
 
     require("console-stamp")(console, {
-        pattern:"HH:MM:ss.l", 
+        pattern:"HH:MM:ss.l",
         metadata:'[' + process.pid + ']'
     });
 
@@ -166,7 +170,7 @@ Result:
     var util = require("util");
 
     require("console-stamp")(console, {
-        pattern:"HH:MM:ss.l", 
+        pattern:"HH:MM:ss.l",
         metadata: function(){ return '[' + (process.memoryUsage().rss) + ']'; });
 
     console.log('Metadata applied.');
