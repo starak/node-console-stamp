@@ -58,11 +58,12 @@ module.exports = function ( con, options, prefix_metadata ) {
         prefix_metadata = prefix_metadata || options.metadata;
     }
 
-    var dateFormat = options.formatter || defaultDateFormat;
+    var dateFormat = options.formatter || defaultDateFormat,
+        allowedLogFunctions = getAllowedLogFunctions( options.level );
 
-    options.disable = options.disable.concat( getAllowedLogFunctions( options.level ) ).filter( function filter( item, i, array ) {
-        return array.indexOf( item ) === i;
-    } );
+    options.disable = options.disable.concat( options.include.filter( function ( m ) {
+        return !~options.exclude.indexOf( m ) && !~allowedLogFunctions.indexOf( m );
+    } ) );
 
     options.include = options.include.filter( function filter( m ) {
         return !~options.exclude.indexOf( m ) && !~options.disable.indexOf( m );
