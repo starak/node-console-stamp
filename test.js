@@ -59,19 +59,6 @@ console_stamp( console, {
 } );
 run();
 
-write( "Patched with advanced metadata and color theme" );
-console_stamp( console, {
-    metadata: function () {
-        return ("[" + human_readable( process.memoryUsage().rss ) + "]");
-    },
-    colors: {
-        stamp: ["yellow"],
-        label: ["white"],
-        metadata: ["green"]
-    }
-} );
-run();
-
 write( "Patched with new 2.x object literal options parameter, with custom formatter" );
 console_stamp( console, {
     formatter:function(){
@@ -80,6 +67,19 @@ console_stamp( console, {
     colors: {
         stamp: ["blue"],
         label: ["white"]
+    }
+} );
+run();
+
+write( "Patched with advanced metadata and color theme" );
+console_stamp( console, {
+    metadata: function () {
+        return ("[" + human_readable( process.memoryUsage().rss ) + "]");
+    },
+    colors: {
+        stamp: ["blue"],
+        label: ["white"],
+        metadata: ["green"]
     }
 } );
 run();
@@ -109,5 +109,14 @@ console_stamp( console, {
 } );
 run();
 
-console_stamp( console );
+write( "Patched 'lever' set to error" );
+console_stamp( console,{
+    level: "error"
+} );
+run();
 
+write( "Patched 'disable' set to error" );
+console_stamp( console,{
+    disable: ["error"]
+} );
+run();
