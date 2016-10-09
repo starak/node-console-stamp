@@ -57,8 +57,8 @@ module.exports = function ( con, options, prefix_metadata ) {
         prefix_metadata = prefix_metadata || options.metadata;
     }
 
-    var stdout = options.stdout || process.stdout;
-    var stderr = options.stderr || options.stdout || process.stderr;
+    var stdout = options.stdout;
+    var stderr = options.stderr || options.stdout;
 
     var dateFormat = options.formatter || defaultDateFormat,
         allowedLogFunctions = getAllowedLogFunctions( options.level );
@@ -144,9 +144,9 @@ module.exports = function ( con, options, prefix_metadata ) {
             }
 
             if ( f === "error" || f === "warn" || ( f === "assert" && !args[0] ) ) {
-                stderr.write( prefix );
+                ( stderr || process.stderr ).write( prefix );
             } else if ( f !== "assert" ) {
-                stdout.write( prefix );
+                ( stdout || process.stdout ).write( prefix );
             }
 
             return org.apply( con, args );
