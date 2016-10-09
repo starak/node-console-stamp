@@ -27,13 +27,12 @@ function getAllowedLogFunctions( level ) {
         levelPriority = levelPriorities[level];
 
     for ( var logFunction in levelPriorities ) {
-        if ( !levelPriorities.hasOwnProperty( logFunction ) ) {
-            continue;
+        if ( levelPriorities.hasOwnProperty( logFunction ) ) {
+            if ( levelPriority >= levelPriorities[logFunction] ) {
+                logFunctions.push( logFunction );
+            }
         }
 
-        if ( levelPriority >= levelPriorities[logFunction] ) {
-            logFunctions.push( logFunction );
-        }
     }
 
     return logFunctions;
@@ -57,6 +56,9 @@ module.exports = function ( con, options, prefix_metadata ) {
         pattern = options.pattern;
         prefix_metadata = prefix_metadata || options.metadata;
     }
+
+    var stdout = options.stdout || process.stdout;
+    var stderr = options.stderr || options.stdout || process.stderr;
 
     var dateFormat = options.formatter || defaultDateFormat,
         allowedLogFunctions = getAllowedLogFunctions( options.level );
@@ -142,9 +144,9 @@ module.exports = function ( con, options, prefix_metadata ) {
             }
 
             if ( f === "error" || f === "warn" || ( f === "assert" && !args[0] ) ) {
-                process.stderr.write( prefix );
+                stderr.write( prefix );
             } else if ( f !== "assert" ) {
-                process.stdout.write( prefix );
+                stdout.write( prefix );
             }
 
             return org.apply( con, args );

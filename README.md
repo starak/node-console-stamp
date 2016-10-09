@@ -21,7 +21,7 @@ This module enables you to patch the console's methods in Node.js, to add timest
     require("console-stamp")(console, [options]);
 
 #### console
-The console itself.
+The global console or [custom console](#customconsole).
 
 #### options {Object|String}
 
@@ -42,6 +42,10 @@ From version 2.0 the second parameter is an object with several options. As a ba
 * **options.level** {String}<br>A string choosing the most verbose logging function to allow. Ordered/grouped as such: "log dir", "info", "warn assert", "error"<br>**Default**: log
 
 * **options.metadata** {String/Object/Function}<br>Types can be String, Object (interpreted with util.inspect), or Function. See the test-metadata.js for examples.<br>**Note** that metadata can still be sent as the third parameter (as in vesion 1.6) as a backward compatibillity feature, but this is deprecated. <br>**Default**: undefined
+
+* **options.stdout** {WritableStream}<br>A custom `stdout` to use with [custom console](#customconsole).<br>**Default:** `process.stdout`
+
+* **options.stderr** {WritableStream}<br>A custom `stderr` to use with [custom console](#customconsole).<br>**Default:** `options.stdout` or `process.stdout`
 
 * **options.colors** {Object}<br>An object representing a color theme. More info [here](https://www.npmjs.com/package/chalk).
 
@@ -119,6 +123,29 @@ and
 Result:
 
 ![Console](gfx/console.png)
+
+<a name="customconsole"></a>
+### Custom Console [v0.2.4+]
+
+As of version 0.2.4 you can also create a custom console with its own `stdout` and `stderr` like this:
+
+
+```
+	var fs = require( 'fs' );
+	var output = fs.createWriteStream( './stdout.log' );
+	var errorOutput = fs.createWriteStream( './stderr.log' );
+	var logger = new console.Console( output, errorOutput );
+	
+	console_stamp( logger, {
+	    stdout: output,
+	    stderr: errorOutput
+	} );
+```
+
+Everything is then written to the files.
+
+**NOTE:** If `stderr` isn't passed, warning and error output will be sent to the given `stdout`.
+
 
 ### Custom Formatter Example
 

@@ -1,7 +1,8 @@
 /*jshint node:true*/
 "use strict";
-var moment = require('moment');
-moment.locale('ja');
+var moment = require( 'moment' );
+moment.locale( 'ja' );
+var fs = require( 'fs' );
 
 var human_readable = require( "filesize" );
 var write = function ( txt ) {
@@ -9,12 +10,13 @@ var write = function ( txt ) {
 };
 var console_stamp = require( "./main" );
 
-function run() {
-    console.log( "This is a console.log message" );
-    console.info( "This is a console.info message" );
-    console.warn( "This is a console.warn message" );
-    console.error( "This is a console.error message" );
-    console.dir( {bar: "This is a console.dir message"} );
+function run( logger ) {
+    logger = logger || console;
+    logger.log( "This is a console.log message" );
+    logger.info( "This is a console.info message" );
+    logger.warn( "This is a console.warn message" );
+    logger.error( "This is a console.error message" );
+    logger.dir( {bar: "This is a console.dir message"} );
     write( "  " );
 }
 
@@ -61,8 +63,8 @@ run();
 
 write( "Patched with new 2.x object literal options parameter, with custom formatter" );
 console_stamp( console, {
-    formatter:function(){
-        return moment().format("LLLL");
+    formatter: function () {
+        return moment().format( "LLLL" );
     },
     colors: {
         stamp: ["blue"],
@@ -87,7 +89,6 @@ run();
 // Use some memory
 var size = 5000000;
 write( "Reading " + human_readable( size ) + "..." );
-var fs = require( "fs" );
 var Buffer = require( 'buffer' ).Buffer;
 var buffer = new Buffer( size );
 var fd = fs.openSync( '/dev/urandom', 'r' );
@@ -110,13 +111,31 @@ console_stamp( console, {
 run();
 
 write( "Patched 'lever' set to error" );
-console_stamp( console,{
+console_stamp( console, {
     level: "error"
 } );
 run();
 
 write( "Patched 'disable' set to error" );
-console_stamp( console,{
+console_stamp( console, {
     disable: ["error"]
 } );
 run();
+
+write( "Patched with custom console. See './stdout.log' and './stderr.log' for output." );
+var output = fs.createWriteStream( './stdout.log' );
+var errorOutput = fs.createWriteStream( './stderr.log' );
+var logger = new console.Console( output, errorOutput );
+console_stamp( logger, {
+    stdout: output,
+    stderr: errorOutput
+} );
+run( logger );
+
+write( "Patched with custom console and only one output stream. See './stdout_stderr.log' for output." );
+var outAndErr = fs.createWriteStream( './stdout_stderr.log' );
+var logger2 = new console.Console( outAndErr );
+console_stamp( logger2, {
+    stdout: outAndErr
+} );
+run( logger2 );

@@ -1,3 +1,7 @@
 .idea
 node_modules/
 npm-debug.log
+
+stdout.log
+stderr.log
+stdout_stderr.log
