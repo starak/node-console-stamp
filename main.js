@@ -13,31 +13,6 @@ var chalk = require( "chalk" );
 var defaults = require( "./defaults.json" );
 var util = require( 'util' );
 
-var levelPriorities = {
-    log: 4,
-    info: 3,
-    warn: 2,
-    error: 1,
-    assert: 2,
-    dir: 4
-};
-
-function getAllowedLogFunctions( level ) {
-    var logFunctions = [],
-        levelPriority = levelPriorities[level];
-
-    for ( var logFunction in levelPriorities ) {
-        if ( levelPriorities.hasOwnProperty( logFunction ) ) {
-            if ( levelPriority >= levelPriorities[logFunction] ) {
-                logFunctions.push( logFunction );
-            }
-        }
-
-    }
-
-    return logFunctions;
-}
-
 module.exports = function ( con, options, prefix_metadata ) {
 
     // If the console is patched already, restore it
@@ -59,6 +34,32 @@ module.exports = function ( con, options, prefix_metadata ) {
 
     var stdout = options.stdout;
     var stderr = options.stderr || options.stdout;
+
+    var levelPriorities = {
+        log: 4,
+        info: 3,
+        warn: 2,
+        error: 1,
+        assert: 2,
+        dir: 4
+    };
+
+    //Extend log levels
+    levelPriorities = merge( {}, levelPriorities, (options.extend || {}) );
+
+    var getAllowedLogFunctions = function ( level ) {
+        var logFunctions = [],
+            levelPriority = levelPriorities[level];
+
+        for ( var logFunction in levelPriorities ) {
+            if ( levelPriorities.hasOwnProperty( logFunction ) ) {
+                if ( levelPriority >= levelPriorities[logFunction] ) {
+                    logFunctions.push( logFunction );
+                }
+            }
+        }
+        return logFunctions;
+    };
 
     var dateFormat = options.formatter || defaultDateFormat,
         allowedLogFunctions = getAllowedLogFunctions( options.level );
