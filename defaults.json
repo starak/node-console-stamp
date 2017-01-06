@@ -4,6 +4,7 @@
   "exclude": [],
   "disable": [],
   "level": "log",
+  "extend": {},
   "label": true,
   "colors": {
     "stamp":[],

@@ -27,6 +27,10 @@
         {
             "name": "Steffan Donal",
             "url": "https://github.com/SteffanDonal"
+        },
+        {
+            "name": "Sören Schwert",
+            "url": "https://github.com/sisou"
         }
     ],
     "description": "Patch NodeJS console methods in order to add timestamp information by pattern",

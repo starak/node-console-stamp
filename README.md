@@ -41,6 +41,8 @@ From version 2.0 the second parameter is an object with several options. As a ba
 
 * **options.level** {String}<br>A string choosing the most verbose logging function to allow. Ordered/grouped as such: "log dir", "info", "warn assert", "error"<br>**Default**: log
 
+* **options.extend** {Object}<br>An object describing methods and their associated log level, to extend the existing `method <-> log level` pairs.<br>For an example see [Custom methods](#custommethods).
+
 * **options.metadata** {String/Object/Function}<br>Types can be String, Object (interpreted with util.inspect), or Function. See the test-metadata.js for examples.<br>**Note** that metadata can still be sent as the third parameter (as in vesion 1.6) as a backward compatibillity feature, but this is deprecated. <br>**Default**: undefined
 
 * **options.stdout** {WritableStream}<br>A custom `stdout` to use with [custom console](#customconsole).<br>**Default:** `process.stdout`
@@ -135,7 +137,7 @@ As of version 0.2.4 you can also create a custom console with its own `stdout` a
 	var output = fs.createWriteStream( './stdout.log' );
 	var errorOutput = fs.createWriteStream( './stderr.log' );
 	var logger = new console.Console( output, errorOutput );
-	
+
 	console_stamp( logger, {
 	    stdout: output,
 	    stderr: errorOutput
@@ -149,7 +151,7 @@ Everything is then written to the files.
 
 ### Custom Formatter Example
 
-Custom forrmatter using moment.js
+Custom formatter using moment.js
 
     var moment = require('moment');
     moment.locale('ja');
@@ -173,6 +175,50 @@ Result:
     [2016年5月12日午前11時10分 木曜日] [WARN]  This is a console.warn message
     [2016年5月12日午前11時10分 木曜日] [ERROR] This is a console.error message
     [2016年5月12日午前11時10分 木曜日] [DIR]   { bar: 'This is a console.dir message' }
+
+<a name="custommethods"></a>
+### Custom Methods
+
+The **option.extend** option enables the extention or modification of the logging methods and their associated log levels:
+
+The default logging methods and their log levels are as follows:
+
+```javascript
+var levelPriorities = {
+    log: 4,
+    info: 3,
+    warn: 2,
+    error: 1,
+    assert: 2,
+    dir: 4
+};
+```
+
+Combined with the **include** option, the **extend** option enables the usage of custom console logging methods to be used with this module, for example:
+
+```javascript
+// Extending the console object with custom methods
+console.debug = function(msg) {
+    console.log(msg);
+}
+console.fatal = function(msg) {
+    console.log(msg);
+    process.exit(1);
+}
+
+// Initialising the output formatter
+require('console-stamp')(console, {
+    pattern: "HH:MM:ss",
+    extend: {
+        debug: 5,
+        fatal: 0,
+    },
+    include: ["debug", "info", "warn", "error", "fatal"],
+    level: "debug",
+});
+```
+
+**Note** how the `log` method is omitted from the `include` list. Because the custom functions call `console.log` internally, including the `log` method would print double-formatted output.
 
 ### Adding Metadata ###
 
