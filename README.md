@@ -33,6 +33,10 @@ From version 2.0 the second parameter is an object with several options. As a ba
 
 * **options.label** {Boolean}<br>If true it will show the label (LOG | INFO | WARN | ERROR)<br>**Default**: true
 
+* **options.labelPrefix** {String}<br>A custom prefix for the label.<br>For an example see [Custom prefix and suffix example](#custom-pre-and-suffixes)<br>**Default:** "["
+
+* **options.labelSuffix** {String}<br>A custom suffix for the label.<br>For an example see [Custom prefix and suffix example](#custom-pre-and-suffixes)<br>**Default:** "]"
+
 * **options.include** {Array}<br>An array containing the methods to include in the patch<br>**Default**: ["log", "info", "warn", "error", "dir", "assert"]
 
 * **options.exclude** {Array}<br>An array containing the methods to exclude in the patch<br>**Default**: [] \(none)
@@ -56,7 +60,10 @@ From version 2.0 the second parameter is an object with several options. As a ba
     * **options.colors.label** {String/Array<String>/Function} <br>**Default:** []
 
     * **options.colors.metadata** {String/Array<String>/Function} <br>**Default:** []
+    
+* **options.datePrefix** {String}<br>A custom prefix for the datestamp.<br>For an example see [Custom prefix and suffix example](#custom-pre-and-suffixes)<br>**Default:** "["
 
+* **options.dateSuffix** {String}<br>A custom suffix for the datestamp.<br>For an example see [Custom prefix and suffix example](#custom-pre-and-suffixes)<br>**Default:** "]"
 Note: To combine colors, bgColors and style, set them as an array like this:
 
     ...
@@ -251,3 +258,20 @@ Result:
 Result:
 
     [18:10:30.875] [LOG] [14503936] Metadata applied.
+
+<a name="custom-pre-and-suffixes"></a>
+### Custom prefix and suffix example
+If you don't want to use the default brackets, you can also define your own custom pre- and suffixes like so:
+
+    require('console-stamp')(console, {
+        datePrefix: '####',
+        dateSuffix: '####',
+        labelPrefix: '{',
+        labelSuffix: '}'
+    });
+    
+    console.log('Custom pre- and suffixed log');
+
+Result:
+
+    ####Fri Sep 15 2017 16:58:29#### {LOG} Custom pre- and suffixed log                                                            
