@@ -122,12 +122,12 @@ module.exports = function ( con, options, prefix_metadata ) {
 
         con[f] = function () {
 
-            var prefix = colorTheme.stamp( "[" + dateFormat( pattern ) + "]" ) + " ";
+            var prefix = colorTheme.stamp( options.datePrefix + dateFormat( pattern ) + options.dateSuffix ) + " ";
             var args = slice.call( arguments );
 
             // Add label if flag is set
             if ( options.label ) {
-                prefix += colorTheme.label( "[" + f.toUpperCase() + "]" ) + "      ".substr( f.length );
+                prefix += colorTheme.label( options.labelPrefix + f.toUpperCase() + options.labelSuffix ) + "      ".substr( f.length );
             }
 
             // Add metadata if any

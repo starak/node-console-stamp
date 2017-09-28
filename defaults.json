@@ -5,7 +5,11 @@
   "disable": [],
   "level": "log",
   "extend": {},
+  "datePrefix": "[",
+  "dateSuffix": "]",
   "label": true,
+  "labelPrefix": "[",
+  "labelSuffix": "]",
   "colors": {
     "stamp":[],
     "label":[],
