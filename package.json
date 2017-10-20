@@ -1,7 +1,7 @@
 {
     "name": "console-stamp",
     "main": "main",
-    "version": "0.2.5",
+    "version": "0.2.6",
     "author": {
         "name": "Ståle Raknes",
         "email": "stale@raknes.net",
@@ -31,6 +31,14 @@
         {
             "name": "Sören Schwert",
             "url": "https://github.com/sisou"
+        },
+        {
+            "name": "Fkscorpion",
+            "url": "https://github.com/Fkscorpion"
+        },
+        {
+            "name": "Alexis Tyler",
+            "url": "https://github.com/OmgImAlexis"
         }
     ],
     "description": "Patch NodeJS console methods in order to add timestamp information by pattern",
