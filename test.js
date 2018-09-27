@@ -17,6 +17,7 @@ function run( logger ) {
     logger.warn( "This is a console.warn message" );
     logger.error( "This is a console.error message" );
     logger.dir( {bar: "This is a console.dir message"} );
+    //logger.assert(false, 'This should fail...');
     write( "  " );
 }
 
@@ -110,7 +111,7 @@ console_stamp( console, {
 } );
 run();
 
-write( "Patched 'lever' set to error" );
+write( "Patched 'level' set to error" );
 console_stamp( console, {
     level: "error"
 } );

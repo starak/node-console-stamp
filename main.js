@@ -127,7 +127,7 @@ module.exports = function ( con, options, prefix_metadata ) {
 
             // Add label if flag is set
             if ( options.label ) {
-                prefix += colorTheme.label( options.labelPrefix + f.toUpperCase() + options.labelSuffix ) + "      ".substr( f.length );
+                prefix += colorTheme.label( options.labelPrefix + f.toUpperCase() + options.labelSuffix ) + "       ".substr( f.length );
             }
 
             // Add metadata if any
@@ -144,10 +144,13 @@ module.exports = function ( con, options, prefix_metadata ) {
                 prefix += colorTheme.metadata( metadata ) + " "; //Metadata
             }
 
-            if ( f === "error" || f === "warn" || ( f === "assert" && !args[0] ) ) {
+            if ( f === "error" || f === "warn" ) {
                 ( stderr || process.stderr ).write( prefix );
             } else if ( f !== "assert" ) {
                 ( stdout || process.stdout ).write( prefix );
+            } else if( f === 'assert' && !args[0] ){
+                ( stderr || process.stderr ).write( `${prefix}Assertion failed: ${args[1]}\n` );
+                return;
             }
 
             return org.apply( con, args );
