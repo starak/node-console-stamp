@@ -1,2 +1,4 @@
 gfx/*
-test*
+test/
+.idea/
+.nyc_output/

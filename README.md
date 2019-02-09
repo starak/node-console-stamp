@@ -1,7 +1,15 @@
-# console-stamp
+# console-stamp 3.0.0
+
+# WIP ...
+
+###This file not up-to-date!!!
+
+------------------------------
 
 [![npm][npm-image]][npm-url]
 [![downloads][downloads-image]][downloads-url]
+
+[![npm](https://nodei.co/npm/console-stamp.png)](https://www.npmjs.com/package/console-stamp)
 
 [npm-image]: https://img.shields.io/npm/v/console-stamp.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/console-stamp
@@ -244,7 +252,7 @@ require('console-stamp')(console, {
 console.log('Metadata applied.');
 ```
 Result:
-```console
+```
 [26/06/2015 12:44:31.779] [LOG] [7785] Metadata applied.
 ```
 
