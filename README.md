@@ -2,11 +2,25 @@
 
 [![npm][npm-image]][npm-url]
 [![downloads][downloads-image]][downloads-url]
+[![build][build-img]][downloads-url]
 
 [npm-image]: https://img.shields.io/npm/v/console-stamp.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/console-stamp
+[build-img]: https://img.shields.io/circleci/project/github/starak/node-console-stamp/0.2.8.svg?style=flat-square
 [downloads-image]: https://img.shields.io/npm/dm/console-stamp.svg?style=flat-square
 [downloads-url]: https://npmjs.org/package/console-stamp
+
+## Attention! ##
+
+Version 3.0.0 (! don't ask...) Release Candidate is now out! Try it out by using the `@next` tag like this:
+
+    npm install console-stamp@next
+    
+Documentation for 3.0.0 can be found [here](https://github.com/starak/node-console-stamp/tree/3.0.0) for now... 
+
+**Note:** There are breaking changes in the new version.
+
+--------------------------
 
 This module enables you to patch the console's methods in Node.js, to add timestamp prefix based on a given string pattern, and more...
 
