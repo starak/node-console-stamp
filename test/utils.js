@@ -13,7 +13,7 @@ test( 'utils', t => {
     t.test( 'generateConfig default', t => {
         t.ok( generateConfig, 'Should exist' );
         const config = generateConfig( {} );
-        t.equal( config.pattern, df.dfPattern.replace( '$$', df.dfDateFormat ), 'default pattern' );
+        t.equal( config.format, df.dfFormat.replace( '$$', df.dfDateFormat ), 'default format' );
         t.equal( df.level, 'log', 'default Log Level' );
         t.strictSame( df.include, config.include, 'default include' );
         t.strictSame( df.tokens, config.tokens, 'default tokens' );
@@ -27,12 +27,12 @@ test( 'utils', t => {
         let stderr = fs.createWriteStream( '/dev/null' );
         const config = generateConfig( {
             level: 'log',
-            pattern: ':foo(bar)',
+            format: ':foo(bar)',
             include: ['log'],
             stdout: stdout,
             stderr: stderr,
         } );
-        t.equal( config.pattern, ':foo(bar)', 'override pattern' );
+        t.equal( config.format, ':foo(bar)', 'override format' );
         t.equal( config.level, 'log', 'override Log Level' );
         t.equal( config.include.length, 1, 'override include' );
         t.strictSame( config.stdout, stdout, 'Shoud use custom stdout' );
@@ -42,7 +42,7 @@ test( 'utils', t => {
 
     t.test( 'generateConfig extend', t => {
         const config = generateConfig( {
-            pattern: ':foo(bar)',
+            format: ':foo(bar)',
             tokens: {
                 foo: ( { params: [bar] } ) => bar
             },
@@ -58,13 +58,13 @@ test( 'utils', t => {
     t.test( 'generateConfig with string input', t => {
         const str = 'HH:MM.ss.l';
         const config = generateConfig( str );
-        t.equal( config.pattern, df.dfPattern.replace( '$$', str ), 'default pattern' );
+        t.equal( config.format, df.dfFormat.replace( '$$', str ), 'default pattern' );
         t.end()
     } );
 
     t.test( 'generatePrefix plain', t => {
         const config = generateConfig( {
-            pattern: ':foo(bar)',
+            format: ':foo(bar)',
             tokens: {
                 foo: ( { params: [bar] } ) => bar
             },

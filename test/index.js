@@ -34,7 +34,7 @@ test( 'general test', t => {
     const logger = new console.Console( stream );
 
     fn( logger, {
-        pattern: ':label(8)',
+        format: ':label(8)',
         stdout,
         stderr,
         level: 'debug',
@@ -58,7 +58,7 @@ test( 'general test', t => {
     const pid = process.pid;
 
     fn( logger, {
-        pattern: `:pid :foo(bar)`,
+        format: `:pid :foo(bar)`,
         stdout,
         stderr,
         level: 'debug',
@@ -85,7 +85,7 @@ test( 'general test', t => {
     stderr.flush();
 
     fn( logger, {
-        pattern: `:foo(bar).blue.bgRed`,
+        format: `:foo(bar).blue.bgRed`,
         stdout,
         stderr,
         tokens:{
