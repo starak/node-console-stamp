@@ -40,11 +40,12 @@ test( 'Tokens', t => {
 
         t.end();
     } );
+
     t.test( 'date.js', t => {
         const now = new Date();
         let format = 'dd.mm.yyyy HH:MM:ss.l';
-        t.equal( date( { params: [format, false, now] } ), dformat( now, format ), 'date should be correct' );
-        t.equal( date( { params: [format, true, now] } ), dformat( now, format, true ), 'UTC date should be correct' );
+        t.equal( date( { params: [format, false, now] } ), `[${dformat( now, format )}]`, 'date should be correct' );
+        t.equal( date( { params: [format, true, now] } ), `[${dformat( now, format, true )}]`, 'UTC date should be correct' );
         t.end();
     } );
     t.end();

@@ -13,12 +13,15 @@ module.exports = fn = ( con, options = {} ) => {
 
     const config = generateConfig( options );
     const include = config.include.filter(m => typeof con[m] === 'function');
-    con.org = {};
+
+    const org = {};
+    Object.keys(con).forEach(m => org[m] = con[m]);
+    con.org = org;
 
     include.forEach( method => {
         //console.log('patching',method);
         const stream = selectOutputStream(method, config);
-        const trg = con.org[method] = con[method];
+        const trg = con[method];
 
         con[method] = new Proxy( trg, {
             apply: ( target, context, arguments ) => {
