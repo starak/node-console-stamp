@@ -8,11 +8,11 @@
 
 [![npm][npm-image]][npm-url]
 [![downloads][downloads-image]][downloads-url]
-
-[![npm](https://nodei.co/npm/console-stamp.png)](https://www.npmjs.com/package/console-stamp)
+[![build][build-img]][downloads-url]
 
 [npm-image]: https://img.shields.io/npm/v/console-stamp.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/console-stamp
+[build-img]: https://img.shields.io/circleci/project/github/starak/node-console-stamp/3.0.0.svg?style=flat-square
 [downloads-image]: https://img.shields.io/npm/dm/console-stamp.svg?style=flat-square
 [downloads-url]: https://npmjs.org/package/console-stamp
 
