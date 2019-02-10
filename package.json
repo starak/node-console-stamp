@@ -1,7 +1,7 @@
 {
     "name": "console-stamp",
     "main": "index.js",
-    "version": "3.0.0-rc1.0",
+    "version": "3.0.0-rc1.1",
     "scripts": {
         "test": "tap --cov -R spec test/*.js",
         "test:watch": "nodemon --exec npm test",
