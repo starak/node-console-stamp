@@ -46,9 +46,9 @@ The second parameter is an object with several options. As a feature this parame
 
 * **options.tokens** {Object}<br>Containing token-functions. See example [here](#tokens).
 
-* **options.include** {Array}<br>An array containing the methods to include in the patch<br>**Default**: ["log", "info", "warn", "error", "dir", "assert"]
+* **options.include** {Array}<br>An array containing the methods to include in the patch<br>**Default**: ["debug", "log", "info", "warn", "error"]
 
-* **options.level** {String}<br>A string choosing the most verbose logging function to allow. Ordered/grouped as such: 'log dir', 'info', 'warn assert', 'error'<br>**Default**: log
+* **options.level** {String}<br>A string choosing the most verbose logging function to allow.<br>**Default**: `log`
 
 * **options.extend** {Object}<br>An object describing methods and their associated log level, to extend the existing `method <-> log level` pairs.<br>For an example see [Custom methods](#custommethods).
 
