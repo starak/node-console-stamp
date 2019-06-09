@@ -1,4 +1,5 @@
 gfx/*
 test/
+.circleci/
 .idea/
 .nyc_output/

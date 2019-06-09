@@ -1,5 +1,5 @@
 function padRight ( str, len = 0 ) {
-    return str + new Array( Math.max( len - str.length, 0 ) ).fill( ' ' ).join( '' );
+    return str + ' '.repeat( Math.max( len - str.length, 0 ) );
 }
 
 function label( { method, params: [len] } ) {

@@ -1,4 +1,4 @@
-const fn = require( '../' );
+const consoleStamp = require( '../' );
 const fs = require( 'fs' );
 const stream = fs.createWriteStream( '/dev/null' );
 const { test } = require( 'tap' );
@@ -33,7 +33,7 @@ test( 'general test', t => {
     // noinspection JSValidateTypes
     const logger = new console.Console( stream );
 
-    fn( logger, {
+    consoleStamp( logger, {
         format: ':label(8)',
         stdout,
         stderr,
@@ -57,7 +57,7 @@ test( 'general test', t => {
 
     const pid = process.pid;
 
-    fn( logger, {
+    consoleStamp( logger, {
         format: `:pid :foo(bar)`,
         stdout,
         stderr,
@@ -84,7 +84,7 @@ test( 'general test', t => {
     stdout.flush();
     stderr.flush();
 
-    fn( logger, {
+    consoleStamp( logger, {
         format: `:foo(bar).blue.bgRed`,
         stdout,
         stderr,
