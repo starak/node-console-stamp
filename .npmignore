@@ -1,2 +1,6 @@
-gfx/*
+gfx/
+.idea/
+.nyc_output/
+*.log
 test*
+.circleci/
