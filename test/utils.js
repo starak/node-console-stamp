@@ -49,7 +49,7 @@ test( 'utils', t => {
             extend: {
                 foo: 1
             }
-        }, console );
+        } );
         t.equal( config.include.length, df.include.length + 1, 'extends include' );
         t.equal( typeof config.tokens.foo, 'function', 'adds tokens' );
         t.end()
@@ -149,6 +149,5 @@ test( 'utils', t => {
         t.end()
     } );
 
-    t.pass( 'This is also fine' );
     t.end();
 } );

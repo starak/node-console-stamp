@@ -5,7 +5,7 @@ jobs:
       - image: circleci/node:6.10
     steps:
       - checkout
-      - run: echo "A first hello"
+      - run: echo "Starting..."
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
@@ -18,3 +18,4 @@ jobs:
       - run:
           name: test
           command: npm test
+      - run: echo "Done!"

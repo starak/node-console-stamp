@@ -1,14 +1,14 @@
 const { checkLogLevel, generateConfig, generatePrefix, selectOutputStream } = require( './lib/utils.js' );
 
-module.exports = fn = ( con, options = {} ) => {
+module.exports = consoleStamp = ( con, options = {} ) => {
 
     if(con.__patched){
         con.reset();
     }
 
-    // fix lack of debug alias in pre 8.0 node
+    // Fix lack of debug alias in pre 8.0 node
     if(typeof con.debug === "undefined"){
-        con.debug = (...arg) => con.org.log(...arg);
+        con.debug = (...arg) => con.org.log ? con.org.log(...arg) : con.log(...arg);
     }
 
     const config = generateConfig( options );
@@ -19,7 +19,6 @@ module.exports = fn = ( con, options = {} ) => {
     con.org = org;
 
     include.forEach( method => {
-        //console.log('patching',method);
         const stream = selectOutputStream(method, config);
         const trg = con[method];
 
