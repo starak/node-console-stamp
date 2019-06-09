@@ -1,69 +1,69 @@
 {
-    "name": "console-stamp",
-    "main": "main",
-    "version": "0.2.8",
-    "author": {
-        "name": "Ståle Raknes",
-        "email": "stale@raknes.net",
-        "url": "http://github.com/starak"
+  "name": "console-stamp",
+  "main": "main",
+  "version": "0.2.9",
+  "author": {
+    "name": "Ståle Raknes",
+    "email": "stale@raknes.net",
+    "url": "http://github.com/starak"
+  },
+  "scripts": {
+    "postinstall": "node ./msg.js"
+  },
+  "contributors": [
+    {
+      "name": "Ståle Raknes",
+      "url": "http://github.com/starak"
     },
-    "scripts": {
-        "postinstall": "node ./msg.js"
+    {
+      "name": "Jotham Read",
+      "url": "https://github.com/jotham"
     },
-    "contributors": [
-        {
-            "name": "Ståle Raknes",
-            "url": "http://github.com/starak"
-        },
-        {
-            "name": "Jotham Read",
-            "url": "https://github.com/jotham"
-        },
-        {
-            "name": "Christiaan Westerbeek",
-            "url": "https://github.com/devotis"
-        },
-        {
-            "name": "Leon Lucardie",
-            "url": "https://github.com/Gameleon12"
-        },
-        {
-            "name": "Steffan Donal",
-            "url": "https://github.com/SteffanDonal"
-        },
-        {
-            "name": "Sören Schwert",
-            "url": "https://github.com/sisou"
-        },
-        {
-            "name": "Fkscorpion",
-            "url": "https://github.com/Fkscorpion"
-        },
-        {
-            "name": "Alexis Tyler",
-            "url": "https://github.com/OmgImAlexis"
-        }
-    ],
-    "description": "Patch NodeJS console methods in order to add timestamp information by pattern",
-    "keywords": [
-        "console",
-        "timestamp",
-        "log",
-        "jslog",
-        "debug"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "http://github.com/starak/node-console-stamp.git"
+    {
+      "name": "Christiaan Westerbeek",
+      "url": "https://github.com/devotis"
     },
-    "license": "MIT",
-    "dependencies": {
-        "dateformat": "^1.0.11",
-        "merge": "^1.2.0",
-        "chalk": "^1.1.1"
+    {
+      "name": "Leon Lucardie",
+      "url": "https://github.com/Gameleon12"
     },
-    "devDependencies": {
-        "filesize": "^3.1.2",
-        "moment": "^2.13.0"
+    {
+      "name": "Steffan Donal",
+      "url": "https://github.com/SteffanDonal"
+    },
+    {
+      "name": "Sören Schwert",
+      "url": "https://github.com/sisou"
+    },
+    {
+      "name": "Fkscorpion",
+      "url": "https://github.com/Fkscorpion"
+    },
+    {
+      "name": "Alexis Tyler",
+      "url": "https://github.com/OmgImAlexis"
     }
+  ],
+  "description": "Patch NodeJS console methods in order to add timestamp information by pattern",
+  "keywords": [
+    "console",
+    "timestamp",
+    "log",
+    "jslog",
+    "debug"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/starak/node-console-stamp.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "dateformat": "^1.0.11",
+    "merge": "^1.2.0",
+    "chalk": "^1.1.1"
+  },
+  "devDependencies": {
+    "filesize": "^3.1.2",
+    "moment": "^2.13.0"
+  }
 }
