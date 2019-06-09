@@ -8,7 +8,7 @@
         "url": "http://github.com/starak"
     },
     "scripts": {
-        "postinstall": "echo \"console-stamp version 3.0.0 Release Candidate is out. Install by using the tag '@next'. NB: Breaking changes.\""
+        "postinstall": "node ./msg.js"
     },
     "contributors": [
         {
