@@ -223,4 +223,4 @@ require( 'console-stamp' )( console, {
 } );
 ```
 
-**Note** how the `console.org.error` method used in the custom method. This is to prevent circular calls to log
+**Note** how the `console.org.error` method used in the custom method. This is to prevent circular calls to `console.error`
