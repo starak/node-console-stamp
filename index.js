@@ -6,7 +6,7 @@ module.exports = consoleStamp = ( con, options = {} ) => {
         con.reset();
     }
 
-    // Fix lack of debug alias in pre 8.0 node
+    // Fix the lack of debug alias in pre 8.0 node
     if(typeof con.debug === "undefined"){
         con.debug = (...arg) => con.org.log ? con.org.log(...arg) : con.log(...arg);
     }

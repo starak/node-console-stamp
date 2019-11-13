@@ -98,5 +98,21 @@ test( 'general test', t => {
     expected = `bar `;
     t.equal( stdout._stream[0], expected );
 
+    // noinspection JSUnresolvedFunction
+    logger.reset();
+    stdout.flush();
+    stderr.flush();
+
+    consoleStamp( logger, {
+        format: `(bar).blue.bgRed`,
+        stdout,
+        stderr,
+    } );
+
+    logAll(logger);
+
+    expected = 'bar ';
+    t.equal( stdout._stream[0], expected, "styling tags should be removed from Color Group" );
+
     t.end();
 } );

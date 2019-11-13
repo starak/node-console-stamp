@@ -1,4 +1,4 @@
-# Console-stamp 3.0.0 RC2
+# Console-stamp 3.0.0 RC3
 
 [![npm][npm-image]][npm-url]
 [![downloads][downloads-image]][downloads-url]
@@ -66,7 +66,7 @@ The second parameter is an object with several options. As a feature this parame
 <a name="tokens"></a>
 ### Tokens
 
-There are only two tokens registered by default:
+There are only two predefined tokens registered by default. These are:
 
     :date([format][,utc])[.color]
     :label([padding])[.color]
@@ -85,9 +85,36 @@ There are only two tokens registered by default:
     **Default:** 7
     
 ### **TODO: How to write custom tokens**
+#### Create a custom token
+To define your own token, simply add a callback function with the token name to the tokens option. This callback function is expected to return a string. The value returned is then available as ":foo()" in this case:
+
+```javascript
+require( 'console-stamp' )( console, {
+    format: ':foo() :label(7)',
+    tokens:{
+        foo: () => {
+            return '[my prefix]';
+        }
+    }
+} );
+
+console.log("Bar")
+
+// > [my prefix] [LOG]   Bar
+```
+
+The token callback function is called with one argument, representing an Object with the following properties:
+* `method` {String} <br>
+    The invoked method
+* `params` {Array} <br>
+    The token parameters (ex: The token call `:label(7)` will have params `[7]`)
+* `tokens` {Object} <br>
+    All the defined tokens, incl. the defaults 
+* `defaultTokens` {Object} <br>
+    Only the default tokens, even if it's been redefined in options
 
 #### Example
-Making a custom date token using moment.js to format the date
+Here we are making a custom date token called `mydate` using moment.js to format the date
 ```js
 const moment = require('moment');
 moment.locale('ja');
@@ -131,6 +158,9 @@ require( 'console-stamp' )( console, {
     }
 } );
 ```
+
+### **TODO: Color Groups** 
+ex: `(foo).yellow`
 
 **Note** that by sending the parameter `--no-color` when you start your node app, will prevent any colors from console.
 ```console
