@@ -1,4 +1,4 @@
-# Console-stamp 3.0.0 RC3
+# Console-stamp 3.0.0 RC4
 
 [![npm][npm-image]][npm-url]
 [![downloads][downloads-image]][downloads-url]
@@ -10,7 +10,7 @@
 [downloads-image]: https://img.shields.io/npm/dm/console-stamp.svg?style=flat-square
 [downloads-url]: https://npmjs.org/package/console-stamp
 
-This module enables you to patch the console's methods in Node.js, to add prefix based on tokens, and more...
+This module let's you take control over the output from `console` logging methods in Node.js. Such as prefixing the log statement with timestamp information, log levels, add coloured output and much more.
 
 ## Usage ##
 
@@ -19,49 +19,136 @@ This module enables you to patch the console's methods in Node.js, to add prefix
 npm install console-stamp@next
 ```
 
-### Simple example
+### Patching the console
 
-This simple example is using the default settings
+You need to provide the console object to `console-stamp` in order to patch the builtin console.
 
 ```js
 require( 'console-stamp' )( console );
 
 console.log('Hello, World!');
-// -> [10.02.2019 15:37:43.452] [LOG]   Hello, World!
+```
+The default behaviour is to add a prefix to each log statement with timestamp information and log level.
+```terminal
+[10.02.2019 15:37:43.452] [LOG]   Hello, World!
 ```
 
-### Patching the console
+You can change this by provinding an [options](#options) object as the second parameter.
+
 ```js
-require( 'console-stamp' )( console, [options] );
+require('console-stamp')(console, { 
+    format: ':date(yyyy/mm/dd HH:MM:ss.l)' 
+} );
+
+console.log('Hello, World!');
 ```
 
-#### console
-The global console or [custom console](#customconsole).
+```terminal
+[2020/01/19 13:56:49.383] Hello, World!
+```
 
-#### options {Object|String}
+Notice how the log level is suddenly missing. You need to add it specifically to the format string.
 
-The second parameter is an object with several options. As a feature this parameter can be a string containing the date-format.
+```js
+require('console-stamp')(console, { 
+    format: ':date(yyyy/mm/dd HH:MM:ss.l) :label' 
+} );
 
-* **options.format** {String}<br>A string with date format based on [dateformat](https://www.npmjs.com/package/dateformat)<br>
-    **Default**: 'dd.mm.yyyy HH:MM:ss.l'
+console.log('Hello, World!');
+```
 
-* **options.tokens** {Object}<br>Containing token-functions. See example [here](#tokens).
+```terminal
+[2020/01/19 23:20:30.371] [LOG] Hello, World!
+```
 
-* **options.include** {Array}<br>An array containing the methods to include in the patch<br>
-    **Default**: ["debug", "log", "info", "warn", "error"]
+[Read more](#configuration) about how to customize the formatting of the log statement below.
 
-* **options.level** {String}<br>A string choosing the most verbose logging function to allow.<br>
-    **Default**: `log`
+<a name="customconsole"></a>
+### Patch your own console
 
-* **options.extend** {Object}<br>An object describing methods and their associated log level, 
-    to extend the existing `method <-> log level` pairs.<br>
-    For an example see [Custom methods](#custommethods).
+You can also provide a custom console with its own `stdout` and `stderr` like this:
 
-* **options.stdout** {WritableStream}<br>A custom `stdout` to use with [custom console](#customconsole).<br>
-    **Default:** `process.stdout`
+```js
+const fs = require('fs');
+const output = fs.createWriteStream('./stdout.log');
+const errorOutput = fs.createWriteStream('./stderr.log');
+const logger = new console.Console(output, errorOutput);
 
-* **options.stderr** {WritableStream}<br>A custom `stderr` to use with [custom console](#customconsole).<br>
-    **Default:** `options.stdout` or `process.stderr`
+require('console-stamp')(logger, {
+    stdout: output,
+    stderr: errorOutput
+});
+```
+
+Everything is then written to the files.
+
+**NOTE:** If `stderr` isn't passed, warning and error output will be sent to the given `stdout`.
+
+### Backwards incompatibility with 2.x versions
+
+`console-stamp` v3 has been rewritten adding [tokens](#tokens) as a new and easier way to customize and extend your logging output.
+
+With that in mind, some consessions has been made and you will probably need to update your `console-stamp` integration.
+
+#### `options.pattern` is replaced by `options.format`
+
+`options.format` is now the place where you provide the format of the logging prefix using [tokens](#tokens).
+
+For example, `{ pattern: 'dd.mm.yyyy HH:MM:ss.l'}` is replaced by `{ format: ':date(dd.mm.yyyy HH:MM:ss.l)' }`.
+
+PS: Providing a string with a date format based on [dateformat](https://www.npmjs.com/package/dateformat) as a second parameter is still supported. 
+
+#### `options.label` is gone
+
+The log level label (INFO, DEBUG etc.) is now only shown if the token `:label` is part of the format string in `options.format`. It is part of the default format.
+
+`options.labelSuffix` and `options.labelPrefix` are also gone as now you can provide these values directly in the `options.format` string.
+
+<a name="configuration"></a>
+### Configuration
+
+Here are some examples on how to customize your log statements with `console-stamp`.
+
+#### Only update timestamp format
+
+Without any other customizations you can provide the timestamp format directly.
+
+```js
+require('console-stamp')( console, 'yyyy/mm/dd HH:MM:ss.l' );
+```
+To set the timestamp format using the [options](#options) object you can use the `date` token.
+
+```js
+require('console-stamp')(console, { 
+    format: ':date(yyyy/mm/dd HH:MM:ss.l)' 
+} );
+
+console.log('Hello, World!');
+```
+
+```
+[2020/01/19 23:08:39.202] Hello, World!
+```
+
+#### Add coloured output
+
+`console-stamp` uses the excellent [chalk](https://www.npmjs.com/package/chalk) library to provide coloured output and other styling.
+
+```js
+require( 'console-stamp' )( console, {
+    format: ':date().blue.bgWhite.underline :label(7)'
+} );
+```
+
+### **TODO: Color Groups** 
+ex: `(foo).yellow`
+
+**Note** that by sending the parameter `--no-color` when you start your node app, will prevent any colors from console.
+```console
+$ node my-app.js --no-color
+```
+For more examples on styling, check out the [chalk](https://www.npmjs.com/package/chalk) documentation.
+
 
 <a name="tokens"></a>
 ### Tokens
@@ -84,7 +171,7 @@ There are only two predefined tokens registered by default. These are:
     The total length of the label, including the brackets and padding<br>
     **Default:** 7
     
-### **TODO: How to write custom tokens**
+
 #### Create a custom token
 To define your own token, simply add a callback function with the token name to the tokens option. This callback function is expected to return a string. The value returned is then available as ":foo()" in this case:
 
@@ -99,8 +186,9 @@ require( 'console-stamp' )( console, {
 } );
 
 console.log("Bar")
-
-// > [my prefix] [LOG]   Bar
+```
+```terminal
+[my prefix] [LOG]   Bar
 ```
 
 The token callback function is called with one argument, representing an Object with the following properties:
@@ -113,7 +201,7 @@ The token callback function is called with one argument, representing an Object 
 * `defaultTokens` {Object} <br>
     Only the default tokens, even if it's been redefined in options
 
-#### Example
+##### Example
 Here we are making a custom date token called `mydate` using moment.js to format the date
 ```js
 const moment = require('moment');
@@ -143,79 +231,6 @@ Result:
 [2016年5月12日午前11時10分 木曜日] [WARN]  This is a console.warn message
 [2016年5月12日午前11時10分 木曜日] [ERROR] This is a console.error message
 ```
-
-### Colors and styling 
-
-All tokens can have a trailing styling like this:
-
-```js
-require( 'console-stamp' )( console, {
-    format: ':foo().blue.bgWhite.underline :label(7)',
-    tokens:{
-        foo: () => {
-            return 'bar';
-        }
-    }
-} );
-```
-
-### **TODO: Color Groups** 
-ex: `(foo).yellow`
-
-**Note** that by sending the parameter `--no-color` when you start your node app, will prevent any colors from console.
-```console
-$ node my-app.js --no-color
-```
-
-### Example
-```js
-// Patch console.x methods in order to add timestamp information
-require( 'console-stamp' )( console, { format: ':date(dd/mm/yyyy HH:MM:ss.l) :label' } );
-
-console.log('Hello World!');
-// -> [26/06/2015 14:02:48.062] [LOG]   Hello World!
-
-const port = 8080;
-console.log('Server running at port %d', port);
-// -> [26/06/2015 16:02:35.325] [LOG]   Server running at port 8080
-```
-&nbsp;
-```js
-console.log('This is a console.log message');
-console.info('This is a console.info message');
-console.debug('This is a console.debug message');
-console.warn('This is a console.warn message');
-console.error('This is a console.error message');
-```
-Result:
-```console
-[26/06/2015 12:44:31.777] [LOG]   This is a console.log message
-[26/06/2015 12:44:31.777] [INFO]  This is a console.info message
-[26/06/2015 12:44:31.778] [DEBUG] This is a console.info message
-[26/06/2015 12:44:31.779] [WARN]  This is a console.warn message
-[26/06/2015 12:44:31.779] [ERROR] This is a console.error message
-```
-
-<a name="customconsole"></a>
-### Custom Console
-
-You can also create a custom console with its own `stdout` and `stderr` like this:
-
-```js
-const fs = require('fs');
-const output = fs.createWriteStream('./stdout.log');
-const errorOutput = fs.createWriteStream('./stderr.log');
-const logger = new console.Console(output, errorOutput);
-
-require('console-stamp')(logger, {
-    stdout: output,
-    stderr: errorOutput
-});
-```
-
-Everything is then written to the files.
-
-**NOTE:** If `stderr` isn't passed, warning and error output will be sent to the given `stdout`.
 
 
 <a name="custommethods"></a>
@@ -254,3 +269,40 @@ require( 'console-stamp' )( console, {
 ```
 
 **Note** how the `console.org.error` method used in the custom method. This is to prevent circular calls to `console.error`
+
+-------------
+
+### API
+```js
+require( 'console-stamp' )( console, [options] );
+```
+
+#### console
+The global console or [custom console](#customconsole).
+
+<a name="options"></a>
+#### options {Object|String}
+
+The second parameter is an object with several options. As a feature this parameter can be a string containing the date-format.
+
+* **options.format** {String}<br>A string with date format based on [dateformat](https://www.npmjs.com/package/dateformat)<br>
+    **Default**: ':date(dd.mm.yyyy HH:MM:ss.l) :label'
+
+* **options.tokens** {Object}<br>Containing token-functions. See example [here](#tokens).
+
+* **options.include** {Array}<br>An array containing the methods to include in the patch<br>
+    **Default**: ["debug", "log", "info", "warn", "error"]
+
+* **options.level** {String}<br>A string choosing the most verbose logging function to allow.<br>
+    **Default**: `log`
+
+* **options.extend** {Object}<br>An object describing methods and their associated log level, 
+    to extend the existing `method <-> log level` pairs.<br>
+    For an example see [Custom methods](#custommethods).
+
+* **options.stdout** {WritableStream}<br>A custom `stdout` to use with [custom console](#customconsole).<br>
+    **Default:** `process.stdout`
+
+* **options.stderr** {WritableStream}<br>A custom `stderr` to use with [custom console](#customconsole).<br>
+    **Default:** `options.stdout` or `process.stderr`
+
