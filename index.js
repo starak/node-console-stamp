@@ -1,32 +1,39 @@
-const { checkLogLevel, generateConfig, generatePrefix, selectOutputStream } = require( './lib/utils.js' );
-
+const { checkLogLevel, generateConfig, generatePrefix, selectOutputStream, FakeStream } = require( './lib/utils.js' );
 module.exports = consoleStamp = ( con, options = {} ) => {
 
-    if(con.__patched){
+    if ( con.__patched ) {
         con.reset();
     }
 
+    const customConsoleStream = new FakeStream();
+    const customConsole = new console.Console( customConsoleStream, customConsoleStream );
+
     // Fix the lack of debug alias in pre 8.0 node
-    if(typeof con.debug === "undefined"){
-        con.debug = (...arg) => con.org.log ? con.org.log(...arg) : con.log(...arg);
+    if ( typeof con.debug === "undefined" ) {
+        con.debug = ( ...arg ) => con.org.log ? con.org.log( ...arg ) : con.log( ...arg );
     }
 
     const config = generateConfig( options );
-    const include = config.include.filter(m => typeof con[m] === 'function');
+    const include = config.include.filter( m => typeof con[m] === 'function' );
 
     const org = {};
-    Object.keys(con).forEach(m => org[m] = con[m]);
+    Object.keys( con ).forEach( m => org[m] = con[m] );
     con.org = org;
 
     include.forEach( method => {
-        const stream = selectOutputStream(method, config);
+        const stream = selectOutputStream( method, config );
         const trg = con[method];
 
         con[method] = new Proxy( trg, {
             apply: ( target, context, arguments ) => {
                 if ( checkLogLevel( config, method ) ) {
-                    stream.write( `${generatePrefix(method, config)} ` );
-                    target.apply( context, arguments );
+                    customConsole.log.apply( context, arguments);
+                    stream.write( `${generatePrefix( method, config, customConsoleStream.last_msg )} ` );
+                    if(config.use_custom_message || /\:msg\b/.test( config.format )) {
+                        stream.write('\n');
+                    }else{
+                        target.apply( context, arguments );
+                    }
                 }
             }
         } );
@@ -41,6 +48,7 @@ module.exports = consoleStamp = ( con, options = {} ) => {
         } );
         delete con.__patched;
         delete con.reset;
+        customConsoleStream.end();
     };
 
 };

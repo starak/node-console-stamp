@@ -7,6 +7,7 @@ const {
     checkLogLevel,
     generateConfig,
     generatePrefix,
+    FakeStream
 } = require( '../lib/utils.js' );
 
 test( 'utils', t => {
@@ -148,6 +149,16 @@ test( 'utils', t => {
         t.equal( d, 'foo', 'Should have correct 4th param' );
         t.end()
     } );
+
+    t.test( 'FakeStream', t => {
+        const fakeStream = new FakeStream();
+        const msg = 'Msg from console';
+        t.ok( fakeStream, 'Should exist' );
+        fakeStream.write( msg );
+        t.equal( fakeStream.last_msg, msg, 'Should have recieved the message' );
+        fakeStream.end();
+        t.end();
+    });
 
     t.end();
 } );

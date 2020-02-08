@@ -5,7 +5,9 @@
     "scripts": {
         "test": "tap -R spec test/*.js",
         "test:watch": "nodemon --exec npm test",
-        "preversion": "npm test"
+        "t:w": "npm run test:watch",
+        "preversion": "npm test",
+        "examples": "node examples/index || true"
     },
     "engines": {
         "node": ">=6.4.0"
