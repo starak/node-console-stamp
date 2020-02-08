@@ -1,76 +1,76 @@
 {
-    "name": "console-stamp",
-    "main": "index.js",
-    "version": "3.0.0-rc3.0",
-    "scripts": {
-        "test": "tap -R spec test/*.js",
-        "test:watch": "nodemon --exec npm test",
-        "t:w": "npm run test:watch",
-        "preversion": "npm test",
-        "examples": "node examples/index || true"
+  "name": "console-stamp",
+  "main": "index.js",
+  "version": "3.0.0-rc4.0",
+  "scripts": {
+    "test": "tap -R spec test/*.js",
+    "test:watch": "nodemon --exec npm test",
+    "t:w": "npm run test:watch",
+    "preversion": "npm test",
+    "examples": "node examples/index || true"
+  },
+  "engines": {
+    "node": ">=6.4.0"
+  },
+  "author": {
+    "name": "Ståle Raknes",
+    "email": "stale@raknes.net",
+    "url": "http://github.com/starak"
+  },
+  "contributors": [
+    {
+      "name": "Ståle Raknes",
+      "url": "http://github.com/starak"
     },
-    "engines": {
-        "node": ">=6.4.0"
+    {
+      "name": "Jotham Read",
+      "url": "https://github.com/jotham"
     },
-    "author": {
-        "name": "Ståle Raknes",
-        "email": "stale@raknes.net",
-        "url": "http://github.com/starak"
+    {
+      "name": "Christiaan Westerbeek",
+      "url": "https://github.com/devotis"
     },
-    "contributors": [
-        {
-            "name": "Ståle Raknes",
-            "url": "http://github.com/starak"
-        },
-        {
-            "name": "Jotham Read",
-            "url": "https://github.com/jotham"
-        },
-        {
-            "name": "Christiaan Westerbeek",
-            "url": "https://github.com/devotis"
-        },
-        {
-            "name": "Leon Lucardie",
-            "url": "https://github.com/Gameleon12"
-        },
-        {
-            "name": "Steffan Donal",
-            "url": "https://github.com/SteffanDonal"
-        },
-        {
-            "name": "Sören Schwert",
-            "url": "https://github.com/sisou"
-        },
-        {
-            "name": "Fkscorpion",
-            "url": "https://github.com/Fkscorpion"
-        },
-        {
-            "name": "Alexis Tyler",
-            "url": "https://github.com/OmgImAlexis"
-        }
-    ],
-    "description": "Patch NodeJS console methods in order to add timestamp information by pattern",
-    "keywords": [
-        "console",
-        "timestamp",
-        "log",
-        "jslog",
-        "debug"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "http://github.com/starak/node-console-stamp.git"
+    {
+      "name": "Leon Lucardie",
+      "url": "https://github.com/Gameleon12"
     },
-    "license": "MIT",
-    "dependencies": {
-        "chalk": "^2.4.2",
-        "dateformat": "^3.0.3"
+    {
+      "name": "Steffan Donal",
+      "url": "https://github.com/SteffanDonal"
     },
-    "devDependencies": {
-        "moment": "^2.24.0",
-        "nodemon": "^1.18.9",
-        "tap": "^12.5.1"
+    {
+      "name": "Sören Schwert",
+      "url": "https://github.com/sisou"
+    },
+    {
+      "name": "Fkscorpion",
+      "url": "https://github.com/Fkscorpion"
+    },
+    {
+      "name": "Alexis Tyler",
+      "url": "https://github.com/OmgImAlexis"
     }
+  ],
+  "description": "Patch NodeJS console methods in order to add timestamp information by pattern",
+  "keywords": [
+    "console",
+    "timestamp",
+    "log",
+    "jslog",
+    "debug"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/starak/node-console-stamp.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "dateformat": "^3.0.3"
+  },
+  "devDependencies": {
+    "moment": "^2.24.0",
+    "nodemon": "^1.18.9",
+    "tap": "^12.5.1"
+  }
 }
