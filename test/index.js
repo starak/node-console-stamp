@@ -18,7 +18,7 @@ class SpyStream {
     }
 }
 
-function logAll(logger){
+function logAll( logger ) {
     logger.log( "foo" );
     logger.info( "foo" );
     logger.debug( "foo" );
@@ -40,7 +40,7 @@ test( 'general test', t => {
         level: 'debug',
     } );
 
-    logAll(logger);
+    logAll( logger );
 
     t.equal( stdout._stream.length, 3 );
     t.equal( stdout._stream[0], '[LOG]    ', 'Should have correct label' );
@@ -62,13 +62,13 @@ test( 'general test', t => {
         stdout,
         stderr,
         level: 'debug',
-        tokens:{
-            foo: ({params:[bar]}) => bar,
+        tokens: {
+            foo: ( { params: [bar] } ) => bar,
             pid: () => pid
         }
     } );
 
-    logAll(logger);
+    logAll( logger );
 
     t.equal( stdout._stream.length, 3 );
     let expected = `${pid} bar `;
@@ -88,12 +88,12 @@ test( 'general test', t => {
         format: `:foo(bar).blue.bgRed`,
         stdout,
         stderr,
-        tokens:{
-            foo: ({params:[bar]}) => bar
+        tokens: {
+            foo: ( { params: [bar] } ) => bar
         }
     } );
 
-    logAll(logger);
+    logAll( logger );
     // colors not working in test mode :(
     expected = `bar `;
     t.equal( stdout._stream[0], expected );
@@ -109,7 +109,7 @@ test( 'general test', t => {
         stderr,
     } );
 
-    logAll(logger);
+    logAll( logger );
 
     expected = 'bar ';
     t.equal( stdout._stream[0], expected, "styling tags should be removed from Color Group" );

@@ -158,7 +158,7 @@ test( 'utils', t => {
         t.equal( fakeStream.last_msg, msg, 'Should have recieved the message' );
         fakeStream.end();
         t.end();
-    });
+    } );
 
     t.end();
 } );

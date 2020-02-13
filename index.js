@@ -27,11 +27,11 @@ module.exports = consoleStamp = ( con, options = {} ) => {
         con[method] = new Proxy( trg, {
             apply: ( target, context, arguments ) => {
                 if ( checkLogLevel( config, method ) ) {
-                    customConsole.log.apply( context, arguments);
+                    customConsole.log.apply( context, arguments );
                     stream.write( `${generatePrefix( method, config, customConsoleStream.last_msg )} ` );
-                    if(config.use_custom_message || /\:msg\b/.test( config.format )) {
-                        stream.write('\n');
-                    }else{
+                    if ( config.use_custom_message || /\:msg\b/.test( config.format ) ) {
+                        stream.write( '\n' );
+                    } else {
                         target.apply( context, arguments );
                     }
                 }

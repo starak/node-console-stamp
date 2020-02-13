@@ -153,6 +153,8 @@ For more examples on styling, check out the [chalk](https://www.npmjs.com/packag
 <a name="tokens"></a>
 ### Tokens
 
+TODO: Add the `:msg` token
+
 There are only two predefined tokens registered by default. These are:
 
     :date([format][,utc])[.color]
@@ -305,4 +307,6 @@ The second parameter is an object with several options. As a feature this parame
 
 * **options.stderr** {WritableStream}<br>A custom `stderr` to use with [custom console](#customconsole).<br>
     **Default:** `options.stdout` or `process.stderr`
+    
+* **options.use_custom_message** TODO!
 
