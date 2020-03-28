@@ -5,6 +5,7 @@ module.exports = consoleStamp = ( con, options = {} ) => {
         con.reset();
     }
 
+    const isCustom = con !== console;
     const customConsoleStream = new FakeStream();
     const customConsole = new console.Console( customConsoleStream, customConsoleStream );
 
@@ -30,7 +31,9 @@ module.exports = consoleStamp = ( con, options = {} ) => {
                     customConsole.log.apply( context, arguments );
                     stream.write( `${generatePrefix( method, config, customConsoleStream.last_msg )} ` );
                     if ( config.use_custom_message || /\:msg\b/.test( config.format ) ) {
-                        stream.write( '\n' );
+                        stream.write('\n');
+                    }else if( !isCustom && options.stdout){
+                        stream.write(`${customConsoleStream.last_msg}\n`);
                     } else {
                         target.apply( context, arguments );
                     }
