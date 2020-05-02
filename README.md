@@ -1,4 +1,4 @@
-# Console-stamp 3.0.0 RC4
+# (WIP) Console-stamp 3.0.0 RC4
 
 [![npm][npm-image]][npm-url]
 [![downloads][downloads-image]][downloads-url]
