@@ -1,8 +1,8 @@
 version: 2
 jobs:
   build:
-    docker: ## Should be node version 6.4 but it does not exist as a cicleci image
-      - image: circleci/node:6.10
+    docker:
+      - image: circleci/node:8.17
     steps:
       - checkout
       - run: echo "Starting..."
