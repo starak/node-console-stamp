@@ -139,9 +139,13 @@ require( 'console-stamp' )( console, {
     format: ':date().blue.bgWhite.underline :label(7)'
 } );
 ```
+You can also simply place some text in parenthesis, and then add your styling to that.
 
-### **TODO: Color Groups** 
-ex: `(foo).yellow`
+```js
+require( 'console-stamp' )( console, {
+    format: '(->).yellow :date().blue.bgWhite.underline :label(7)'
+} );
+```
 
 **Note** that by sending the parameter `--no-color` when you start your node app, will prevent any colors from console.
 ```console
@@ -153,12 +157,11 @@ For more examples on styling, check out the [chalk](https://www.npmjs.com/packag
 <a name="tokens"></a>
 ### Tokens
 
-TODO: Add the `:msg` token
-
-There are only two predefined tokens registered by default. These are:
+There are only three predefined tokens registered by default. These are:
 
     :date([format][,utc])[.color]
     :label([padding])[.color]
+    :msg[.color]
 
 **:date([format][,utc])**
 * **format** {String}<br>
@@ -173,6 +176,8 @@ There are only two predefined tokens registered by default. These are:
     The total length of the label, including the brackets and padding<br>
     **Default:** 7
     
+**:msg**
+* If the `:msg` token is provided in `format`, the output from the console will be returned in its place, otherwise the console output will be added as the last output, with no formatting.
 
 #### Create a custom token
 To define your own token, simply add a callback function with the token name to the tokens option. This callback function is expected to return a string. The value returned is then available as ":foo()" in this case:
@@ -196,6 +201,8 @@ console.log("Bar")
 The token callback function is called with one argument, representing an Object with the following properties:
 * `method` {String} <br>
     The invoked method
+* `msg` {String} <br>
+    The console output as a string
 * `params` {Array} <br>
     The token parameters (ex: The token call `:label(7)` will have params `[7]`)
 * `tokens` {Object} <br>
@@ -226,7 +233,7 @@ console.error('This is a console.error message');
 ```
 
 Result:
-```console
+```terminal
 [2016年5月12日午前11時10分 木曜日] [LOG]   This is a console.log message
 [2016年5月12日午前11時10分 木曜日] [INFO]  This is a console.info message
 [2016年5月12日午前11時10分 木曜日] [DEBUG] This is a console.debug message
@@ -243,7 +250,7 @@ The **option.extend** option enables the extension or modification of the loggin
 The default logging methods and their log levels are as follows:
 
 ```js
-levels: {
+levels = {
     error: 1,
     warn: 2,
     info: 3,
@@ -308,5 +315,5 @@ The second parameter is an object with several options. As a feature this parame
 * **options.stderr** {WritableStream}<br>A custom `stderr` to use with [custom console](#customconsole).<br>
     **Default:** `options.stdout` or `process.stderr`
     
-* **options.use_custom_message** TODO!
+* **options.preventDefaultMessage** {Boolean}<br>If set to `true` Console-stamp will not print out the standard output from the console. This can be used in combination with a custom message token.<br>**Default:** `false`
 
