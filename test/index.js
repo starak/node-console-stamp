@@ -1,4 +1,5 @@
 const consoleStamp = require( '../' );
+const chalk = require( 'chalk' );
 const fs = require( 'fs' );
 const stream = fs.createWriteStream( '/dev/null' );
 const { test } = require( 'tap' );
@@ -94,8 +95,7 @@ test( 'general test', t => {
     } );
 
     logAll( logger );
-    // colors not working in test mode :(
-    expected = `bar `;
+    expected = chalk`{bgRed.blue bar} `;
     t.equal( stdout._stream[0], expected );
 
     // noinspection JSUnresolvedFunction
@@ -111,7 +111,7 @@ test( 'general test', t => {
 
     logAll( logger );
 
-    expected = 'bar ';
+    expected = chalk`{bgRed.blue bar} `;
     t.equal( stdout._stream[0], expected, "styling tags should be removed from Color Group" );
 
     t.end();
