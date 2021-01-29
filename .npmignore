@@ -6,3 +6,4 @@ test/
 examples/
 package-lock.json
 test*
+*.log

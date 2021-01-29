@@ -192,7 +192,7 @@ require( 'console-stamp' )( console, {
     }
 } );
 
-console.log("Bar")
+console.log("Bar");
 ```
 ```terminal
 [my prefix] [LOG]   Bar
