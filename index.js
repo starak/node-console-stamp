@@ -68,3 +68,4 @@ let consoleStamp = ( con, options = {} ) => {
 };
 
 module.exports = consoleStamp;
+module.exports.default = consoleStamp;
