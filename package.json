@@ -1,14 +1,21 @@
 {
   "name": "console-stamp",
-  "main": "main",
-  "version": "0.2.9",
+  "main": "index.js",
+  "version": "3.0.0",
+  "scripts": {
+    "test": "tap --no-check-coverage -R spec test/*.js",
+    "test:watch": "nodemon --exec npm test",
+    "t:w": "npm run test:watch",
+    "preversion": "npm test",
+    "examples": "node examples/index || true"
+  },
+  "engines": {
+    "node": ">=10"
+  },
   "author": {
     "name": "Ståle Raknes",
     "email": "stale@raknes.net",
     "url": "http://github.com/starak"
-  },
-  "scripts": {
-    "postinstall": "node ./msg.js"
   },
   "contributors": [
     {
@@ -42,6 +49,10 @@
     {
       "name": "Alexis Tyler",
       "url": "https://github.com/OmgImAlexis"
+    },
+    {
+      "name": "Jan Åge Lavik",
+      "url": "http://github.com/jalavik"
     }
   ],
   "description": "Patch NodeJS console methods in order to add timestamp information by pattern",
@@ -58,12 +69,12 @@
   },
   "license": "MIT",
   "dependencies": {
-    "dateformat": "^1.0.11",
-    "merge": "^1.2.0",
-    "chalk": "^1.1.1"
+    "chalk": "^4.1.0",
+    "dateformat": "^4.5.1"
   },
   "devDependencies": {
-    "filesize": "^3.1.2",
-    "moment": "^2.13.0"
+    "moment": "^2.29.1",
+    "nodemon": "^2.0.7",
+    "tap": "^15.0.1"
   }
 }

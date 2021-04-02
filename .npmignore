@@ -1,6 +1,9 @@
 gfx/
+test/
+.circleci/
 .idea/
 .nyc_output/
-*.log
+examples/
+package-lock.json
 test*
-.circleci/
+*.log

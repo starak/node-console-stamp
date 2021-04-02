@@ -1,11 +1,11 @@
 version: 2
 jobs:
   build:
-    docker: ## Should be node version 6.4 but it does not exist as a cicleci image
-      - image: circleci/node:6.10
+    docker:
+      - image: circleci/node:10.24
     steps:
       - checkout
-      - run: echo "Hello"
+      - run: echo "Starting..."
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
@@ -15,3 +15,7 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
+      - run:
+          name: test
+          command: npm test
+      - run: echo "Done!"
