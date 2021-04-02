@@ -10,7 +10,7 @@
     "examples": "node examples/index || true"
   },
   "engines": {
-    "node": ">=8.17.0"
+    "node": ">=10"
   },
   "author": {
     "name": "Ståle Raknes",
