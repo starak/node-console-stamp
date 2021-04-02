@@ -1,9 +1,9 @@
 {
   "name": "console-stamp",
   "main": "index.js",
-  "version": "3.0.0-rc4.3",
+  "version": "3.0.0",
   "scripts": {
-    "test": "tap -R spec test/*.js",
+    "test": "tap --no-check-coverage -R spec test/*.js",
     "test:watch": "nodemon --exec npm test",
     "t:w": "npm run test:watch",
     "preversion": "npm test",
@@ -49,6 +49,10 @@
     {
       "name": "Alexis Tyler",
       "url": "https://github.com/OmgImAlexis"
+    },
+    {
+      "name": "Jan Åge Lavik",
+      "url": "http://github.com/jalavik"
     }
   ],
   "description": "Patch NodeJS console methods in order to add timestamp information by pattern",
@@ -66,11 +70,11 @@
   "license": "MIT",
   "dependencies": {
     "chalk": "^4.1.0",
-    "dateformat": "^4.0.0"
+    "dateformat": "^4.5.1"
   },
   "devDependencies": {
     "moment": "^2.29.1",
-    "nodemon": "^2.0.6",
-    "tap": "^14.11.0"
+    "nodemon": "^2.0.7",
+    "tap": "^15.0.1"
   }
 }

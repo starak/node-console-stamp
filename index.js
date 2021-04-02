@@ -1,5 +1,5 @@
 const { checkLogLevel, generateConfig, generatePrefix, selectOutputStream, FakeStream } = require( './lib/utils.js' );
-module.exports = consoleStamp = ( con, options = {} ) => {
+let consoleStamp = ( con, options = {} ) => {
 
     if ( con.__patched ) {
         con.reset();
@@ -66,3 +66,5 @@ module.exports = consoleStamp = ( con, options = {} ) => {
     };
 
 };
+
+module.exports = consoleStamp;
