@@ -6,3 +6,5 @@ npm-debug.log
 stdout.log
 stderr.log
 stdout_stderr.log
+
+.DS_Store
