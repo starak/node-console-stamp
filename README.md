@@ -9,13 +9,13 @@
 [build-img]: https://img.shields.io/circleci/project/github/starak/node-console-stamp/3.0.0.svg?style=flat-square
 [downloads-image]: https://img.shields.io/npm/dm/console-stamp.svg?style=flat-square
 
-This module let's you take control over the output from `console` logging methods in Node.js. Such as prefixing the log statement with timestamp information, log levels, add coloured output and much more.
+This module lets you take control over the output from `console` logging methods in Node.js. Such as prefixing the log statement with timestamp information, log levels, add coloured output and much more.
 
 ## Usage ##
 
 ### Install
 ```console
-npm install console-stamp@next
+npm install console-stamp
 ```
 
 ### Patching the console
