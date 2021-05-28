@@ -75,6 +75,6 @@
   "devDependencies": {
     "moment": "^2.29.1",
     "nodemon": "^2.0.7",
-    "tap": "^15.0.1"
+    "tap": "^15.0.9"
   }
 }
