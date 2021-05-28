@@ -6,7 +6,7 @@
 
 [npm-image]: https://img.shields.io/npm/v/console-stamp.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/console-stamp
-[build-img]: https://img.shields.io/circleci/project/github/starak/node-console-stamp/3.0.0.svg?style=flat-square
+[build-img]: https://circleci.com/gh/starak/node-console-stamp.svg?style=svg
 [downloads-image]: https://img.shields.io/npm/dm/console-stamp.svg?style=flat-square
 
 This module lets you take control over the output from `console` logging methods in Node.js. Such as prefixing the log statement with timestamp information, log levels, add coloured output and much more.
