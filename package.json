@@ -1,7 +1,7 @@
 {
   "name": "console-stamp",
   "main": "index.js",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "scripts": {
     "test": "tap --no-check-coverage -R spec test/*.js",
     "test:watch": "nodemon --exec npm test",
