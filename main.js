@@ -8,7 +8,6 @@
 "use strict";
 
 var defaultDateFormat = require( "dateformat" );
-var merge = require( "merge" );
 var chalk = require( "chalk" );
 var defaults = require( "./defaults.json" );
 var util = require( 'util' );
@@ -25,9 +24,9 @@ module.exports = function ( con, options, prefix_metadata ) {
     if ( typeof options === "string" ) {
         // Fallback to version 0.1.x
         pattern = options;
-        options = merge( {}, defaults );
+        options = Object.assign( {}, defaults );
     } else {
-        options = merge( {}, defaults, (options || {}) );
+        options = Object.assign( {}, defaults, (options || {}) );
         pattern = options.pattern;
         prefix_metadata = prefix_metadata || options.metadata;
     }
@@ -45,7 +44,7 @@ module.exports = function ( con, options, prefix_metadata ) {
     };
 
     //Extend log levels
-    levelPriorities = merge( {}, levelPriorities, (options.extend || {}) );
+    levelPriorities = Object.assign( {}, levelPriorities, (options.extend || {}) );
 
     var getAllowedLogFunctions = function ( level ) {
         var logFunctions = [],

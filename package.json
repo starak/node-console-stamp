@@ -7,9 +7,6 @@
     "email": "stale@raknes.net",
     "url": "http://github.com/starak"
   },
-  "scripts": {
-    "postinstall": "node ./msg.js"
-  },
   "contributors": [
     {
       "name": "Ståle Raknes",
@@ -58,9 +55,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "dateformat": "^1.0.11",
-    "merge": "^1.2.0",
-    "chalk": "^1.1.1"
+    "chalk": "^1.1.1",
+    "dateformat": "1.0.11"
   },
   "devDependencies": {
     "filesize": "^3.1.2",

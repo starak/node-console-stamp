@@ -12,13 +12,7 @@
 
 ## Attention! ##
 
-Version 3.0.0 (! don't ask...) Release Candidate is now out! Try it out by using the `@next` tag like this:
-
-    npm install console-stamp@next
-    
-Documentation for 3.0.0 can be found [here](https://github.com/starak/node-console-stamp/tree/3.0.0) for now... 
-
-**Note:** There are breaking changes in the new version.
+This versjon is deprecated. Please use version >= 3.0.2
 
 --------------------------
 
