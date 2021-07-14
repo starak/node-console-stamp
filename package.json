@@ -69,12 +69,12 @@
   },
   "license": "MIT",
   "dependencies": {
-    "chalk": "^4.1.0",
+    "chalk": "^4.1.1",
     "dateformat": "^4.5.1"
   },
   "devDependencies": {
     "moment": "^2.29.1",
-    "nodemon": "^2.0.7",
-    "tap": "^15.0.1"
+    "nodemon": "^2.0.12",
+    "tap": "^15.0.9"
   }
 }
