@@ -13,8 +13,8 @@ declare function consoleStamp(console: Console, options?: {
     include?: string[]
     level?: string
     extend?: Record<string, number>
-    stdout?: WritableStream
-    stderr?: WritableStream
+    stdout?: NodeJS.WriteStream
+    stderr?: NodeJS.WriteStream
     use_custom_message?: boolean
 }): void;
 
