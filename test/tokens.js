@@ -1,5 +1,5 @@
 const { test } = require( 'tap' );
-const { label, padRight } = require( '../tokens/label.js' );
+const label = require( '../tokens/label.js' );
 const dformat = require( 'dateformat' );
 const date = require( '../tokens/date.js' );
 
@@ -25,16 +25,6 @@ test( 'Tokens', t => {
                 method: 'error',
                 params: []
             } ), '[ERROR]', 'Error should have correct label and padding' );
-            t.end();
-        } );
-
-        t.test( 'padRight', t => {
-            t.ok( padRight, 'Should exist' );
-            t.equal( padRight( 'foo', 0 ), 'foo', 'Should have correct padding' );
-            t.equal( padRight( 'foo', 3 ), 'foo', 'Should have correct padding' );
-            t.equal( padRight( 'foo', 6 ), 'foo   ', 'Should have correct padding' );
-            t.equal( padRight( 'foo', -5 ), 'foo', 'Should have correct padding' );
-            t.equal( padRight( 'foo' ), 'foo', 'Should have correct padding' );
             t.end();
         } );
 

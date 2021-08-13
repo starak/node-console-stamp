@@ -5,19 +5,12 @@ let consoleStamp = ( con, options = {} ) => {
         con.reset();
     }
 
-    const isCustom = con !== console;
-    const customConsoleStream = new FakeStream();
-    const customConsole = new console.Console( customConsoleStream, customConsoleStream );
-
-    // Fix the lack of debug alias in pre 8.0 node
-    if ( typeof con.debug === "undefined" ) {
-        con.debug = ( ...arg ) => con.org.log ? con.org.log( ...arg ) : con.log( ...arg );
-    }
+    const helperConsoleStream = new FakeStream();
+    const helperConsole = new console.Console( helperConsoleStream, helperConsoleStream );
 
     const config = generateConfig( options );
     const include = config.include.filter( m => typeof con[m] === 'function' );
 
-    const helperConsole = new console.Console( config.stdout, config.stderr );
     const org = {};
     Object.keys( con ).forEach( m => org[m] = con[m] );
     con.org = org;
@@ -29,20 +22,20 @@ let consoleStamp = ( con, options = {} ) => {
         con[method] = new Proxy( trg, {
             apply: ( target, context, args ) => {
                 if ( checkLogLevel( config, method ) ) {
-                    customConsole.log.apply( context, args );
-                    stream.write( `${generatePrefix( method, config, customConsoleStream.last_msg )} ` );
-                    if ( config.preventDefaultMessage || /:msg\b/.test( config.format ) ) {
-                        stream.write('\n');
-                    }else if(method === 'table'){
-                        stream.write('\n');
-                        // Normaly table calls log to write to stream, so we need to prevent double prefix
+                    let outputMessage = '';
+                    helperConsole.log.apply( context, args );
+                    outputMessage = `${generatePrefix( method, config, helperConsoleStream.last_msg )} `;
+                    if(method === 'table'){
+                        outputMessage += '\n';
                         helperConsole.table.apply( context, args);
-                    }else if( !isCustom && options.stdout){
-                        stream.write(`${customConsoleStream.last_msg}\n`);
-                    } else {
-                        target.apply( context, args );
+                        outputMessage += helperConsoleStream.last_msg;
+                    }else if(!( config.preventDefaultMessage || /:msg\b/.test( config.format ) )){
+                        outputMessage += `${helperConsoleStream.last_msg}`;
                     }
+                    outputMessage += '\n';
+                    stream.write( outputMessage );
                 }
+
             }
         } );
 
@@ -51,7 +44,8 @@ let consoleStamp = ( con, options = {} ) => {
 
     if(!include.includes('table')) {
         // Normaly table calls log to write to stream, we need to prevent prefix when table is not included
-        con.table = helperConsole.table;
+        const tableConsole = new console.Console( config.stdout, config.stderr );
+        con.table = tableConsole.table;
     }
 
     con.reset = () => {
@@ -62,7 +56,7 @@ let consoleStamp = ( con, options = {} ) => {
         delete con.org;
         delete con.__patched;
         delete con.reset;
-        customConsoleStream.end();
+        helperConsoleStream.end();
     };
 
 };
