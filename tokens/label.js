@@ -1,12 +1,3 @@
-function padRight ( str, len = 0 ) {
-    return str + ' '.repeat( Math.max( len - str.length, 0 ) );
+module.exports = ( { method, params: [len] } ) => {
+    return `[${method.toUpperCase()}]`.padEnd(len);
 }
-
-function label( { method, params: [len] } ) {
-    return padRight( `[${method.toUpperCase()}]`, len );
-}
-
-module.exports = {
-    padRight,
-    label
-};
