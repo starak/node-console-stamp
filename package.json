@@ -73,6 +73,7 @@
     "dateformat": "^4.5.1"
   },
   "devDependencies": {
+    "@types/node": "^17.0.18",
     "moment": "^2.29.1",
     "nodemon": "^2.0.12",
     "tap": "^15.0.9"
