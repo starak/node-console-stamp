@@ -27,20 +27,20 @@ let consoleStamp = ( con, options = {} ) => {
         const trg = con[method];
 
         con[method] = new Proxy( trg, {
-            apply: ( target, context, arguments ) => {
+            apply: ( target, context, args ) => {
                 if ( checkLogLevel( config, method ) ) {
-                    customConsole.log.apply( context, arguments );
+                    customConsole.log.apply( context, args );
                     stream.write( `${generatePrefix( method, config, customConsoleStream.last_msg )} ` );
                     if ( config.preventDefaultMessage || /:msg\b/.test( config.format ) ) {
                         stream.write('\n');
                     }else if(method === 'table'){
                         stream.write('\n');
                         // Normaly table calls log to write to stream, so we need to prevent double prefix
-                        helperConsole.table.apply( context, arguments);
+                        helperConsole.table.apply( context, args);
                     }else if( !isCustom && options.stdout){
                         stream.write(`${customConsoleStream.last_msg}\n`);
                     } else {
-                        target.apply( context, arguments );
+                        target.apply( context, args );
                     }
                 }
             }
