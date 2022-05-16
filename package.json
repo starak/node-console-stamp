@@ -52,7 +52,11 @@
     },
     {
       "name": "Jan Åge Lavik",
-      "url": "http://github.com/jalavik"
+      "url": "https://github.com/jalavik"
+    },
+    {
+      "name": "Alexey Zakhlestin",
+      "url": "https://github.com/indeyets"
     }
   ],
   "description": "Patch NodeJS console methods in order to add timestamp information by pattern",
