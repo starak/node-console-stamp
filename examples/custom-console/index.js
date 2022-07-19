@@ -1,13 +1,7 @@
 const console_stamp = require( '../../index' );
-const fs = require( 'fs' );
-const output = fs.createWriteStream( `${__dirname}/stdout.log` );
-const errorOutput = fs.createWriteStream( `${__dirname}/stderr.log` );
-const logger = new console.Console( output, errorOutput );
+const logger = new console.Console( process.stdout, process.stderr );
 
-console_stamp( logger, {
-    stdout: output,
-    stderr: errorOutput
-} );
+console_stamp( logger );
 
 logger.debug( 'This is a console.debug message' );
 logger.log( 'This is a console.log message' );

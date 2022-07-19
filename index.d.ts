@@ -7,14 +7,28 @@ export interface TokenPayload {
     defaultTokens: Record<string, Token>
 }
 
+export interface SpyStream extends NodeJS.WriteStream{
+    length: number
+    last: string
+    flush: ()=>void
+    asArray: string[]
+}
+
+declare global {
+    interface Console {
+        reset: () => void;
+        org: Console
+    }
+}
+
 declare function consoleStamp(console: Console, options?: {
     format?: string
     tokens?: Record<string, Token>
     include?: string[]
     level?: string
     extend?: Record<string, number>
-    stdout?: NodeJS.WriteStream
-    stderr?: NodeJS.WriteStream
+    stdout?: NodeJS.WriteStream | SpyStream
+    stderr?: NodeJS.WriteStream | SpyStream
     use_custom_message?: boolean
 }): void;
 

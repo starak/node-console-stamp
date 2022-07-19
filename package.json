@@ -10,7 +10,7 @@
     "examples": "node examples/index || true"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=12"
   },
   "author": {
     "name": "Ståle Raknes",
@@ -78,7 +78,6 @@
   },
   "devDependencies": {
     "@types/node": "^17.0.31",
-    "moment": "^2.29.3",
     "nodemon": "^2.0.16",
     "tap": "^16.1.0"
   }
