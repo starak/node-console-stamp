@@ -1,36 +1,11 @@
 const consoleStamp = require( '../' );
 const chalk = require( 'chalk' );
 const { test } = require( 'tap' );
-const { PassThrough, Writable } = require('stream');
-
-class SpyStream extends PassThrough{
-    constructor() {
-        super();
-        this._stream = [];
-        this.on('data', d => this._stream.push(d.toString()));
-    }
-
-    get length(){
-        return this._stream.length;
-    }
-
-    get last(){
-        return this._stream[this._stream.length - 1];
-    }
-
-    flush(){
-        this._stream = [];
-    }
-
-    get asArray(){
-        return this._stream;
-    }
-}
+const SpyStream = require('./tools/SpyStream');
 
 const message = "foo";
 
 function logAll( logger ) {
-
     logger.log( message );
     logger.info( message );
     logger.debug( message );
@@ -40,10 +15,9 @@ function logAll( logger ) {
 
 test( 'general test', t => {
 
-    const stdout = new SpyStream();
     const stderr = new SpyStream();
+    const stdout = new SpyStream();
 
-    // noinspection JSCheckFunctionSignatures
     consoleStamp( console, {
         format: ':label(8)',
         stdout: stdout,
@@ -67,8 +41,6 @@ test( 'general test', t => {
 
     const pid = process.pid;
 
-
-    // noinspection JSCheckFunctionSignatures
     consoleStamp( console, {
         format: `:pid :foo(bar)`,
         stdout,
@@ -95,7 +67,6 @@ test( 'general test', t => {
     stdout.flush();
     stderr.flush();
 
-    // noinspection JSCheckFunctionSignatures
     consoleStamp( console, {
         format: `:foo(bar).blue.bgRed`,
         stdout,
@@ -113,7 +84,6 @@ test( 'general test', t => {
     stdout.flush();
     stderr.flush();
 
-    // noinspection JSCheckFunctionSignatures
     consoleStamp( console, {
         format: `(bar).blue.bgRed`,
         stdout,

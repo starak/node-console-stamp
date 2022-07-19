@@ -22,9 +22,9 @@ let consoleStamp = ( con, options = {} ) => {
         con[method] = new Proxy( trg, {
             apply: ( target, context, args ) => {
                 if ( checkLogLevel( config, method ) ) {
-                    let outputMessage = '';
                     helperConsole.log.apply( context, args );
-                    outputMessage = `${generatePrefix( method, config, helperConsoleStream.last_msg )} `;
+                    // TODO: custom msg vs table will not work
+                    let outputMessage = `${generatePrefix( method, config, helperConsoleStream.last_msg )} `;
                     if(method === 'table'){
                         outputMessage += '\n';
                         helperConsole.table.apply( context, args);
