@@ -15,12 +15,12 @@
   "author": {
     "name": "Ståle Raknes",
     "email": "stale@raknes.net",
-    "url": "http://github.com/starak"
+    "url": "https://github.com/starak"
   },
   "contributors": [
     {
       "name": "Ståle Raknes",
-      "url": "http://github.com/starak"
+      "url": "https://github.com/starak"
     },
     {
       "name": "Jotham Read",
@@ -69,7 +69,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "http://github.com/starak/node-console-stamp.git"
+    "url": "https://github.com/starak/node-console-stamp.git"
   },
   "license": "MIT",
   "dependencies": {
