@@ -1,10 +1,11 @@
-export type Token = ( payload?: TokenPayload ) => string | number;
+export type Token = ( payload: TokenPayload ) => string | number;
 
 export interface TokenPayload {
     method: string
     params: (string | number)[]
     tokens: Record<string, Token>
     defaultTokens: Record<string, Token>
+    msg: string
 }
 
 export interface SpyStream extends NodeJS.WriteStream{
@@ -29,7 +30,7 @@ declare function consoleStamp(console: Console, options?: {
     extend?: Record<string, number>
     stdout?: NodeJS.WriteStream | SpyStream
     stderr?: NodeJS.WriteStream | SpyStream
-    use_custom_message?: boolean
+    preventDefaultMessage?: boolean
 }): void;
 
 export default consoleStamp;
