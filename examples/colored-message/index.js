@@ -22,7 +22,7 @@ console_stamp( console, {
 } );
 
 console.debug( 'This is a console.debug message' );
-console.log( 'This is a console.log message' );
+console.log( 'This is a console.log message Test (1).csv' );
 console.info( 'This is a console.info message' );
 console.warn( 'This is a console.warn message' );
 console.error( 'This is a console.error message' );
