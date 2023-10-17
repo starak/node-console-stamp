@@ -3,7 +3,7 @@
   "main": "index.js",
   "version": "3.1.2",
   "scripts": {
-    "test": "tap --coverage-report -R spec test/*.js",
+    "test": "tap --coverage-report spec test/*.js",
     "test:watch": "nodemon --exec npm test",
     "t:w": "npm run test:watch",
     "preversion": "npm test",
