@@ -3,7 +3,7 @@
   "main": "index.js",
   "version": "3.1.2",
   "scripts": {
-    "test": "tap --no-check-coverage -R spec test/*.js",
+    "test": "tap -R spec test/*.js",
     "test:watch": "nodemon --exec npm test",
     "t:w": "npm run test:watch",
     "preversion": "npm test",
@@ -78,7 +78,7 @@
   },
   "devDependencies": {
     "@types/node": "^17.0.31",
-    "nodemon": "^2.0.16",
-    "tap": "^16.3.3"
+    "nodemon": "^3.0.1",
+    "tap": "^18.5.2"
   }
 }

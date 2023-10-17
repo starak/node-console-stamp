@@ -1,5 +1,6 @@
 .idea/
 .nyc_output/
+.tap/
 node_modules/
 npm-debug.log
 
