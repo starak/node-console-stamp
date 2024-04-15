@@ -79,7 +79,6 @@
   "devDependencies": {
     "@types/node": "^17.0.31",
     "jest": "^29.7.0",
-    "nodemon": "^3.0.1",
-    "tap": "^18.5.2"
+    "nodemon": "^3.0.1"
   }
 }
