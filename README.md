@@ -1,12 +1,13 @@
 # Console-stamp 3
 
 [![npm][npm-image]][npm-url]
-[![downloads][downloads-image]][npm-url]
-[![build][build-img]][npm-url]
+[![Downloads][downloads-image]][npm-url]
+[![Build Status][build-img]][build-url]
 
-[npm-image]: https://img.shields.io/npm/v/console-stamp.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/console-stamp
-[build-img]: https://circleci.com/gh/starak/node-console-stamp.svg?style=svg
+[build-url]: https://github.com/starak/node-console-stamp/actions
+[npm-image]: https://img.shields.io/npm/v/console-stamp.svg?style=flat-square
+[build-img]: https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fstarak%2Fnode-console-stamp%2Fbadge%3Fref%3Dmain&style=flat-square
 [downloads-image]: https://img.shields.io/npm/dm/console-stamp.svg?style=flat-square
 
 This module lets you take control over the output from `console` logging methods in Node.js. Such as prefixing the log statement with timestamp information, log levels, add coloured output and much more.
