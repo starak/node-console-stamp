@@ -1,15 +1,14 @@
-// noinspection JSUnresolvedReference
-
-const df = require('../lib/defaults.js');
-const fs = require('fs');
-const {
+import { describe, it, expect } from 'vitest';
+import { createWriteStream } from 'fs';
+import df from '../src/defaults.js';
+import {
     selectOutputStream,
     parseParams,
     checkLogLevel,
     generateConfig,
     generatePrefix,
-    FakeStream
-} = require('../lib/utils.js');
+    FakeStream,
+} from '../src/utils.js';
 
 describe('utils', () => {
     describe('generateConfig default', () => {
@@ -27,8 +26,8 @@ describe('utils', () => {
 
     describe('generateConfig override', () => {
         it('should override properties', () => {
-            const stdout = fs.createWriteStream('/dev/null');
-            const stderr = fs.createWriteStream('/dev/null');
+            const stdout = createWriteStream('/dev/null');
+            const stderr = createWriteStream('/dev/null');
             const config = generateConfig({
                 level: 'log',
                 format: ':foo(bar)',
@@ -41,6 +40,8 @@ describe('utils', () => {
             expect(config.include.length).toBe(1);
             expect(config.stdout).toBe(stdout);
             expect(config.stderr).toBe(stderr);
+            stdout.end();
+            stderr.end();
         });
     });
 
@@ -49,11 +50,11 @@ describe('utils', () => {
             const config = generateConfig({
                 format: ':foo(bar)',
                 tokens: {
-                    foo: ({ params: [bar] }) => bar
+                    foo: ({ params }) => String(params[0]),
                 },
                 extend: {
-                    foo: 1
-                }
+                    foo: 1,
+                },
             });
             expect(config.include.length).toBe(df.include.length + 1);
             expect(typeof config.tokens.foo).toBe('function');
@@ -73,19 +74,19 @@ describe('utils', () => {
             const config = generateConfig({
                 format: ':foo(bar)',
                 tokens: {
-                    foo: ({ params: [bar] }) => bar
+                    foo: ({ params }) => String(params[0]),
                 },
                 extend: {
-                    foo: 1
-                }
-            }, console);
-            expect(generatePrefix('log', config)).toBe('bar');
+                    foo: 1,
+                },
+            });
+            expect(generatePrefix('log', config, '')).toBe('bar');
         });
     });
 
     describe('selectOutputStream default', () => {
         it('should select output stream', () => {
-            const config = generateConfig({}, console);
+            const config = generateConfig({});
             expect(selectOutputStream('log', config)).toBe(process.stdout);
             expect(selectOutputStream('info', config)).toBe(process.stdout);
             expect(selectOutputStream('warn', config)).toBe(process.stderr);
@@ -95,23 +96,25 @@ describe('utils', () => {
 
     describe('selectOutputStream override', () => {
         it('should override output stream', () => {
-            const stdout = fs.createWriteStream('/dev/null');
-            const stderr = fs.createWriteStream('/dev/null');
+            const stdout = createWriteStream('/dev/null');
+            const stderr = createWriteStream('/dev/null');
             const config = generateConfig({
                 stdout: stdout,
                 stderr: stderr,
-            }, console);
+            });
             expect(selectOutputStream('debug', config)).toBe(stdout);
             expect(selectOutputStream('log', config)).toBe(stdout);
             expect(selectOutputStream('info', config)).toBe(stdout);
             expect(selectOutputStream('warn', config)).toBe(stderr);
             expect(selectOutputStream('error', config)).toBe(stderr);
+            stdout.end();
+            stderr.end();
         });
     });
 
     describe('checkLogLevel', () => {
         it('should check log levels', () => {
-            const config = generateConfig({}, console);
+            const config = generateConfig({});
             expect(config.level).toBe('log');
             expect(checkLogLevel(config, 'log')).toBeTruthy();
             expect(checkLogLevel(config, 'info')).toBeTruthy();
@@ -121,7 +124,7 @@ describe('utils', () => {
 
     describe('checkLogLevel override info', () => {
         it('should override log level to info', () => {
-            const config = generateConfig({ level: 'info' }, console);
+            const config = generateConfig({ level: 'info' });
             expect(config.level).toBe('info');
             expect(checkLogLevel(config, 'log')).toBeFalsy();
             expect(checkLogLevel(config, 'debug')).toBeFalsy();
@@ -132,7 +135,7 @@ describe('utils', () => {
 
     describe('checkLogLevel override error', () => {
         it('should override log level to error', () => {
-            const config = generateConfig({ level: 'error' }, console);
+            const config = generateConfig({ level: 'error' });
             expect(config.level).toBe('error');
             expect(checkLogLevel(config, 'log')).toBeFalsy();
             expect(checkLogLevel(config, 'info')).toBeFalsy();

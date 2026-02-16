@@ -7,3 +7,10 @@ npm-debug.log
 stdout.log
 stderr.log
 stdout_stderr.log
+
+# Build output
+dist/
+*.tsbuildinfo
+
+# Test coverage
+coverage/

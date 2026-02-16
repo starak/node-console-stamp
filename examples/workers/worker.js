@@ -1,4 +1,7 @@
-require('../../index')(console, { format: ':date(yyyy/mm/dd HH:MM:ss.l) :label' });
+import consoleStamp from '../../dist/index.js';
+
+consoleStamp(console, { format: ':date(yyyy/mm/dd HH:MM:ss.l) :label' });
+
 console.log('Log 1 from worker');
 console.error('Error 1 from worker');
 console.log('Log 2 from worker');

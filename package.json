@@ -1,16 +1,37 @@
 {
   "name": "console-stamp",
-  "main": "index.js",
-  "version": "3.1.2",
+  "version": "4.0.0",
+  "type": "module",
+  "description": "Patch NodeJS console methods in order to add timestamp information by pattern",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "test": "jest",
-    "test:watch": "nodemon --exec npm test",
-    "t:w": "npm run test:watch",
-    "preversion": "npm test",
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build && npm run test",
     "examples": "node examples/index || true"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=18"
   },
   "author": {
     "name": "Ståle Raknes",
@@ -59,7 +80,6 @@
       "url": "https://github.com/indeyets"
     }
   ],
-  "description": "Patch NodeJS console methods in order to add timestamp information by pattern",
   "keywords": [
     "console",
     "timestamp",
@@ -73,12 +93,15 @@
   },
   "license": "MIT",
   "dependencies": {
-    "chalk": "^4.1.2",
-    "dateformat": "^4.6.3"
+    "chalk": "^5.4.1",
+    "chalk-template": "^1.1.0",
+    "dateformat": "^5.0.3"
   },
   "devDependencies": {
-    "@types/node": "^17.0.31",
-    "jest": "^29.7.0",
-    "nodemon": "^3.0.1"
+    "@types/node": "^20.17.12",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.7",
+    "vite-plugin-dts": "^4.4.0",
+    "vitest": "^2.1.8"
   }
 }

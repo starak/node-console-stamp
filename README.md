@@ -1,4 +1,4 @@
-# Console-stamp 3
+# Console-stamp 4
 
 [![npm][npm-image]][npm-url]
 [![Downloads][downloads-image]][npm-url]
@@ -12,7 +12,22 @@
 
 This module lets you take control over the output from `console` logging methods in Node.js. Such as prefixing the log statement with timestamp information, log levels, add coloured output and much more.
 
-## Usage ##
+---
+
+## Breaking Changes in v4
+
+> **Warning**: Version 4.x contains breaking changes from 3.x. See the [Migration Guide](#migrating-from-v3-to-v4) below.
+
+**Key changes:**
+- **Node.js 18+** required (dropped support for Node.js < 18)
+- **ESM-first** - Now uses ES modules (CommonJS still supported via bundled output)
+- **TypeScript** - Full TypeScript support with included type definitions
+- **chalk 5.x** - Upgraded to chalk 5.x (ESM-only)
+- **chalk-template** - Tagged template syntax moved to separate `chalk-template` package
+
+---
+
+## Usage
 
 ### Install
 ```console
@@ -21,24 +36,35 @@ npm install console-stamp
 
 ### Patching the console
 
-You need to provide the console object to `console-stamp` in order to patch the builtin console.
-
+**ESM (recommended):**
 ```js
-require( 'console-stamp' )( console );
+import consoleStamp from 'console-stamp';
 
+consoleStamp(console);
 console.log('Hello, World!');
 ```
+
+**CommonJS:**
+```js
+const consoleStamp = require('console-stamp').default;
+
+consoleStamp(console);
+console.log('Hello, World!');
+```
+
 The default behaviour is to add a prefix to each log statement with timestamp information and log level.
 ```terminal
 [10.02.2019 15:37:43.452] [LOG]   Hello, World!
 ```
 
-You can change this by provinding an [options](#options) object as the second parameter.
+You can change this by providing an [options](#options) object as the second parameter.
 
 ```js
-require('console-stamp')(console, { 
+import consoleStamp from 'console-stamp';
+
+consoleStamp(console, { 
     format: ':date(yyyy/mm/dd HH:MM:ss.l)' 
-} );
+});
 
 console.log('Hello, World!');
 ```
@@ -50,9 +76,11 @@ console.log('Hello, World!');
 Notice how the log level is suddenly missing. You need to add it specifically to the format string.
 
 ```js
-require('console-stamp')(console, { 
+import consoleStamp from 'console-stamp';
+
+consoleStamp(console, { 
     format: ':date(yyyy/mm/dd HH:MM:ss.l) :label' 
-} );
+});
 
 console.log('Hello, World!');
 ```
@@ -69,12 +97,14 @@ console.log('Hello, World!');
 You can also provide a custom console with its own `stdout` and `stderr` like this:
 
 ```js
-const fs = require('fs');
-const output = fs.createWriteStream('./stdout.log');
-const errorOutput = fs.createWriteStream('./stderr.log');
+import { createWriteStream } from 'fs';
+import consoleStamp from 'console-stamp';
+
+const output = createWriteStream('./stdout.log');
+const errorOutput = createWriteStream('./stderr.log');
 const logger = new console.Console(output, errorOutput);
 
-require('console-stamp')(logger, {
+consoleStamp(logger, {
     stdout: output,
     stderr: errorOutput
 });
@@ -84,44 +114,107 @@ Everything is then written to the files.
 
 **NOTE:** If `stderr` isn't passed, warning and error output will be sent to the given `stdout`.
 
-### Backwards incompatibility with 2.x versions
+---
 
-`console-stamp` v3 has been rewritten adding [tokens](#tokens) as a new and easier way to customize and extend your logging output.
+<a name="migrating-from-v3-to-v4"></a>
+## Migrating from v3 to v4
 
-With that in mind, some consessions has been made and you will probably need to update your `console-stamp` integration.
+### Node.js Version
 
-#### `options.pattern` is replaced by `options.format`
+v4 requires **Node.js 18 or later**. If you need to support older Node.js versions, stay on v3:
 
-`options.format` is now the place where you provide the format of the logging prefix using [tokens](#tokens).
+```console
+npm install console-stamp@3
+```
 
-For example, `{ pattern: 'dd.mm.yyyy HH:MM:ss.l'}` is replaced by `{ format: ':date(dd.mm.yyyy HH:MM:ss.l)' }`.
+### Import Syntax
 
-PS: Providing a string with a date format based on [dateformat](https://www.npmjs.com/package/dateformat) as a second parameter is still supported. 
+**v3 (CommonJS):**
+```js
+require('console-stamp')(console);
+```
 
-#### `options.label` is gone
+**v4 (ESM - recommended):**
+```js
+import consoleStamp from 'console-stamp';
+consoleStamp(console);
+```
 
-The log level label (INFO, DEBUG etc.) is now only shown if the token `:label` is part of the format string in `options.format`. It is part of the default format.
+**v4 (CommonJS):**
+```js
+const consoleStamp = require('console-stamp').default;
+consoleStamp(console);
+```
 
-`options.labelSuffix` and `options.labelPrefix` are also gone as now you can provide these values directly in the `options.format` string.
+### Custom Tokens with Chalk
+
+If you use custom tokens with chalk's tagged template syntax, you now need to import `chalk-template` separately:
+
+**v3:**
+```js
+const chalk = require('chalk');
+
+require('console-stamp')(console, {
+    tokens: {
+        myToken: ({ msg }) => chalk`{blue ${msg}}`
+    }
+});
+```
+
+**v4:**
+```js
+import consoleStamp from 'console-stamp';
+import chalkTemplate from 'chalk-template';
+
+consoleStamp(console, {
+    tokens: {
+        myToken: ({ msg }) => chalkTemplate`{blue ${msg}}`
+    }
+});
+```
+
+### TypeScript
+
+v4 includes built-in TypeScript definitions. No need for `@types/console-stamp`:
+
+```typescript
+import consoleStamp, { ConsoleStampOptions, TokenContext } from 'console-stamp';
+
+const options: ConsoleStampOptions = {
+    format: ':date() :label',
+    tokens: {
+        custom: (ctx: TokenContext) => ctx.method.toUpperCase()
+    }
+};
+
+consoleStamp(console, options);
+```
+
+---
 
 <a name="configuration"></a>
-### Configuration
+## Configuration
 
 Here are some examples on how to customize your log statements with `console-stamp`.
 
-#### Only update timestamp format
+### Only update timestamp format
 
 Without any other customizations you can provide the timestamp format directly.
 
 ```js
-require('console-stamp')( console, 'yyyy/mm/dd HH:MM:ss.l' );
+import consoleStamp from 'console-stamp';
+
+consoleStamp(console, 'yyyy/mm/dd HH:MM:ss.l');
 ```
+
 To set the timestamp format using the [options](#options) object you can use the `date` token.
 
 ```js
-require('console-stamp')(console, { 
+import consoleStamp from 'console-stamp';
+
+consoleStamp(console, { 
     format: ':date(yyyy/mm/dd HH:MM:ss.l)' 
-} );
+});
 
 console.log('Hello, World!');
 ```
@@ -130,21 +223,26 @@ console.log('Hello, World!');
 [2020/01/19 23:08:39.202] Hello, World!
 ```
 
-#### Add coloured output
+### Add coloured output
 
 `console-stamp` uses the excellent [chalk](https://www.npmjs.com/package/chalk) library to provide coloured output and other styling.
 
 ```js
-require( 'console-stamp' )( console, {
+import consoleStamp from 'console-stamp';
+
+consoleStamp(console, {
     format: ':date().blue.bgWhite.underline :label(7)'
-} );
+});
 ```
+
 You can also simply place some text in parenthesis, and then add your styling to that.
 
 ```js
-require( 'console-stamp' )( console, {
+import consoleStamp from 'console-stamp';
+
+consoleStamp(console, {
     format: '(->).yellow :date().blue.bgWhite.underline :label(7)'
-} );
+});
 ```
 
 **Note** that by sending the parameter `--no-color` when you start your node app, will prevent any colors from console.
@@ -155,7 +253,7 @@ For more examples on styling, check out the [chalk](https://www.npmjs.com/packag
 
 
 <a name="tokens"></a>
-### Tokens
+## Tokens
 
 There are only three predefined tokens registered by default. These are:
 
@@ -179,20 +277,23 @@ There are only three predefined tokens registered by default. These are:
 **:msg**
 * If the `:msg` token is provided in `format`, the output from the console will be returned in its place, otherwise the console output will be added as the last output, with no formatting.
 
-#### Create a custom token
+### Create a custom token
+
 To define your own token, simply add a callback function with the token name to the tokens option. This callback function is expected to return a string. The value returned is then available as ":foo()" in this case:
 
-```javascript
-require( 'console-stamp' )( console, {
+```js
+import consoleStamp from 'console-stamp';
+
+consoleStamp(console, {
     format: ':foo() :label(7)',
-    tokens:{
+    tokens: {
         foo: () => {
             return '[my prefix]';
         }
     }
-} );
+});
 
-console.log("Bar");
+console.log('Bar');
 ```
 ```terminal
 [my prefix] [LOG]   Bar
@@ -210,20 +311,25 @@ The token callback function is called with one argument, representing an Object 
 * `defaultTokens` {Object} <br>
     Only the default tokens, even if it's been redefined in options
 
-##### Example
-Here we are making a custom date token called `mydate` using moment.js to format the date
-```js
-const moment = require('moment');
-moment.locale('ja');
+#### Example
 
-require( 'console-stamp' )( console, {
+Here we are making a custom date token called `mydate` using Intl.DateTimeFormat:
+
+```js
+import consoleStamp from 'console-stamp';
+
+consoleStamp(console, {
     format: ':mydate() :label(7)',
-    tokens:{
+    tokens: {
         mydate: () => {
-            return `[${moment().format('LLLL')}]`;
+            const formatter = new Intl.DateTimeFormat('ja-JP', {
+                dateStyle: 'full',
+                timeStyle: 'short'
+            });
+            return `[${formatter.format(new Date())}]`;
         }
     }
-} );
+});
 
 console.log('This is a console.log message');
 console.info('This is a console.info message');
@@ -234,16 +340,16 @@ console.error('This is a console.error message');
 
 Result:
 ```terminal
-[2016年5月12日午前11時10分 木曜日] [LOG]   This is a console.log message
-[2016年5月12日午前11時10分 木曜日] [INFO]  This is a console.info message
-[2016年5月12日午前11時10分 木曜日] [DEBUG] This is a console.debug message
-[2016年5月12日午前11時10分 木曜日] [WARN]  This is a console.warn message
-[2016年5月12日午前11時10分 木曜日] [ERROR] This is a console.error message
+[2024年5月12日日曜日 11:10] [LOG]   This is a console.log message
+[2024年5月12日日曜日 11:10] [INFO]  This is a console.info message
+[2024年5月12日日曜日 11:10] [DEBUG] This is a console.debug message
+[2024年5月12日日曜日 11:10] [WARN]  This is a console.warn message
+[2024年5月12日日曜日 11:10] [ERROR] This is a console.error message
 ```
 
 
 <a name="custommethods"></a>
-### Custom Methods
+## Custom Methods
 
 The **option.extend** option enables the extension or modification of the logging methods and their associated log levels:
 
@@ -263,6 +369,8 @@ The **extend** option enables the usage of custom console logging methods to be
 used with this module, for example:
 
 ```js
+import consoleStamp from 'console-stamp';
+
 // Extending the console with a custom method
 console.fatal = function(msg) {
     console.org.error(msg);
@@ -270,27 +378,30 @@ console.fatal = function(msg) {
 }
 
 // Initialising the output formatter
-require( 'console-stamp' )( console, {
+consoleStamp(console, {
     extend: {
         fatal: 1
     }
-} );
+});
 ```
 
 **Note** how the `console.org.error` method used in the custom method. This is to prevent circular calls to `console.error`
 
 -------------
 
-### API
+## API
+
 ```js
-require( 'console-stamp' )( console, [options] );
+import consoleStamp from 'console-stamp';
+
+consoleStamp(console, [options]);
 ```
 
-#### console
+### console
 The global console or [custom console](#customconsole).
 
 <a name="options"></a>
-#### options {Object|String}
+### options {Object|String}
 
 The second parameter is an object with several options. As a feature this parameter can be a string containing the date-format.
 
@@ -317,3 +428,30 @@ The second parameter is an object with several options. As a feature this parame
     
 * **options.preventDefaultMessage** {Boolean}<br>If set to `true` Console-stamp will not print out the standard output from the console. This can be used in combination with a custom message token.<br>**Default:** `false`
 
+---
+
+## Backwards Compatibility
+
+### Migrating from v2 to v3
+
+`console-stamp` v3 introduced [tokens](#tokens) as a new way to customize and extend your logging output.
+
+#### `options.pattern` is replaced by `options.format`
+
+`options.format` is now the place where you provide the format of the logging prefix using [tokens](#tokens).
+
+For example, `{ pattern: 'dd.mm.yyyy HH:MM:ss.l'}` is replaced by `{ format: ':date(dd.mm.yyyy HH:MM:ss.l)' }`.
+
+PS: Providing a string with a date format based on [dateformat](https://www.npmjs.com/package/dateformat) as a second parameter is still supported. 
+
+#### `options.label` is gone
+
+The log level label (INFO, DEBUG etc.) is now only shown if the token `:label` is part of the format string in `options.format`. It is part of the default format.
+
+`options.labelSuffix` and `options.labelPrefix` are also gone as now you can provide these values directly in the `options.format` string.
+
+---
+
+## License
+
+MIT
