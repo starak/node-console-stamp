@@ -26,6 +26,7 @@ export default defineConfig({
                     format: 'cjs',
                     entryFileNames: 'index.cjs',
                     exports: 'named',
+                    interop: 'auto',
                     outro: 'module.exports = Object.assign(exports.default, exports);',
                 },
             ],
