@@ -13,14 +13,22 @@ export default defineConfig({
         lib: {
             entry: resolve(__dirname, 'src/index.ts'),
             name: 'consoleStamp',
-            formats: ['es', 'cjs'],
-            fileName: (format) => (format === 'es' ? 'index.js' : 'index.cjs'),
         },
         rollupOptions: {
             external: ['chalk', 'chalk-template', 'dateformat', 'stream'],
-            output: {
-                exports: 'named',
-            },
+            output: [
+                {
+                    format: 'es',
+                    entryFileNames: 'index.js',
+                    exports: 'named',
+                },
+                {
+                    format: 'cjs',
+                    entryFileNames: 'index.cjs',
+                    exports: 'named',
+                    outro: 'module.exports = Object.assign(exports.default, exports);',
+                },
+            ],
         },
         target: 'node18',
         minify: false,
