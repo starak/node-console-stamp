@@ -1,6 +1,6 @@
 {
   "name": "console-stamp",
-  "version": "4.0.0",
+  "version": "4.0.0-rc.1",
   "type": "module",
   "description": "Patch NodeJS console methods in order to add timestamp information by pattern",
   "exports": {
