@@ -5,12 +5,14 @@ import type { ConsoleStampOptions, ResolvedConfig } from './types.js';
 
 /**
  * Check if the current log level allows the method to output
+ * Methods not in the levels map default to the 'log' level priority
  */
 export function checkLogLevel(
     { levels, level }: Pick<ResolvedConfig, 'levels' | 'level'>,
     method: string
 ): boolean {
-    return levels[level] >= levels[method];
+    const methodLevel = levels[method] ?? levels['log'];
+    return levels[level] >= methodLevel;
 }
 
 /**
@@ -135,12 +137,14 @@ export function generatePrefix(
 
 /**
  * Select the appropriate output stream based on log level
+ * Methods not in the levels map default to the 'log' level priority
  */
 export function selectOutputStream(
     method: string,
     { levels, stdout, stderr }: ResolvedConfig
 ): Writable {
-    return levels[method] <= 2 ? stderr : stdout;
+    const methodLevel = levels[method] ?? levels['log'];
+    return methodLevel <= 2 ? stderr : stdout;
 }
 
 /**

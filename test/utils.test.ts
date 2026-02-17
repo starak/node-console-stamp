@@ -144,6 +144,31 @@ describe('utils', () => {
         });
     });
 
+    describe('checkLogLevel unknown method', () => {
+        it('should default unknown methods to log level', () => {
+            const config = generateConfig({ level: 'log' });
+            // Unknown methods like 'table' should default to log level (4)
+            expect(checkLogLevel(config, 'table')).toBeTruthy();
+            expect(checkLogLevel(config, 'dir')).toBeTruthy();
+            expect(checkLogLevel(config, 'trace')).toBeTruthy();
+        });
+
+        it('should respect level setting for unknown methods', () => {
+            const config = generateConfig({ level: 'info' });
+            // With level 'info' (3), unknown methods at log level (4) should be filtered
+            expect(checkLogLevel(config, 'table')).toBeFalsy();
+        });
+    });
+
+    describe('selectOutputStream unknown method', () => {
+        it('should default unknown methods to stdout', () => {
+            const config = generateConfig({});
+            // Unknown methods should use log level (4) -> stdout
+            expect(selectOutputStream('table', config)).toBe(process.stdout);
+            expect(selectOutputStream('dir', config)).toBe(process.stdout);
+        });
+    });
+
     describe('parseParams', () => {
         it('should parse parameters', () => {
             const [a, b, c, d] = parseParams('( 1,2,3,foo )');
