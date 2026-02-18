@@ -15,6 +15,7 @@ export interface Defaults {
     extend: Record<string, number>;
     groupCount: number;
     preventDefaultMessage: boolean;
+    dual: boolean;
 }
 
 /**
@@ -37,6 +38,7 @@ const defaults: Defaults = {
     extend: {},
     groupCount: 0,
     preventDefaultMessage: false,
+    dual: false,
 };
 
 export default defaults;

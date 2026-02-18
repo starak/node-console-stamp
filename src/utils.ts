@@ -65,6 +65,7 @@ export function generateConfig(options: ConsoleStampOptions | string = {}): Reso
         tokensKeys: [],
         extend: opts.extend ?? df.extend,
         preventDefaultMessage: opts.preventDefaultMessage ?? df.preventDefaultMessage,
+        dual: opts.dual ?? df.dual,
         groupCount: df.groupCount,
     };
 
@@ -145,6 +146,19 @@ export function selectOutputStream(
 ): Writable {
     const methodLevel = levels[method] ?? levels['log'];
     return methodLevel <= 2 ? stderr : stdout;
+}
+
+/**
+ * Select the appropriate process stream based on log level
+ * Used for dual output mode to write to both custom and process streams
+ * Methods not in the levels map default to the 'log' level priority
+ */
+export function selectProcessStream(
+    method: string,
+    { levels }: Pick<ResolvedConfig, 'levels'>
+): NodeJS.WriteStream {
+    const methodLevel = levels[method] ?? levels['log'];
+    return methodLevel <= 2 ? process.stderr : process.stdout;
 }
 
 /**

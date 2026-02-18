@@ -55,6 +55,8 @@ export interface ConsoleStampOptions {
     stderr?: Writable;
     /** Prevent default message output (use with custom :msg token) */
     preventDefaultMessage?: boolean;
+    /** Write to both custom streams and process.stdout/stderr */
+    dual?: boolean;
 }
 
 /**
@@ -72,6 +74,7 @@ export interface ResolvedConfig {
     stdout: Writable;
     stderr: Writable;
     preventDefaultMessage: boolean;
+    dual: boolean;
     groupCount: number;
 }
 

@@ -114,6 +114,33 @@ Everything is then written to the files.
 
 **NOTE:** If `stderr` isn't passed, warning and error output will be sent to the given `stdout`.
 
+<a name="dualoutput"></a>
+### Dual Output
+
+If you want to log to a file while also seeing output in the terminal, use the `dual` option:
+
+```js
+import { createWriteStream } from 'fs';
+import consoleStamp from 'console-stamp';
+
+const logFile = createWriteStream('./app.log', { flags: 'a' });
+
+consoleStamp(console, {
+    stdout: logFile,
+    stderr: logFile,
+    dual: true
+});
+
+// This will be written to BOTH the log file AND the terminal
+console.log('Server started');
+console.error('Something went wrong');
+```
+
+When `dual: true` is set:
+- Log messages are written to your custom streams (e.g., file streams)
+- Log messages are also written to `process.stdout`/`process.stderr` for terminal output
+- If your custom stream is the same as the process stream, no duplication occurs
+
 ---
 
 <a name="migrating-from-v3-to-v4"></a>
@@ -427,6 +454,8 @@ The second parameter is an object with several options. As a feature this parame
     **Default:** `options.stdout` or `process.stderr`
     
 * **options.preventDefaultMessage** {Boolean}<br>If set to `true` Console-stamp will not print out the standard output from the console. This can be used in combination with a custom message token.<br>**Default:** `false`
+
+* **options.dual** {Boolean}<br>If set to `true`, output will be written to both custom streams (`stdout`/`stderr`) AND the process streams (`process.stdout`/`process.stderr`). This is useful when logging to a file while also seeing output in the terminal.<br>**Default:** `false`
 
 ---
 

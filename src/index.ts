@@ -3,6 +3,7 @@ import {
     generateConfig,
     generatePrefix,
     selectOutputStream,
+    selectProcessStream,
     FakeStream,
 } from './utils.js';
 import type { ConsoleStampOptions, PatchedConsole, ResolvedConfig } from './types.js';
@@ -83,6 +84,14 @@ export default function consoleStamp(
 
                     outputMessage += '\n';
                     stream.write(outputMessage);
+
+                    // Dual output: also write to process streams if enabled
+                    if (config.dual) {
+                        const processStream = selectProcessStream(method, config);
+                        if (processStream !== stream) {
+                            processStream.write(outputMessage);
+                        }
+                    }
                 }
             },
         });

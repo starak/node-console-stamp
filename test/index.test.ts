@@ -172,4 +172,82 @@ describe('consoleStamp', () => {
         expect(stdout.length).toEqual(0);
         expect(stderr.length).toEqual(2);
     });
+
+    it('should write to both custom and process streams when dual is true', () => {
+        const customStdout = new SpyStream();
+        const customStderr = new SpyStream();
+        const processStdout = new SpyStream();
+        const processStderr = new SpyStream();
+
+        // Replace process streams temporarily
+        const originalProcessStdout = process.stdout;
+        const originalProcessStderr = process.stderr;
+        Object.defineProperty(process, 'stdout', { value: processStdout, writable: true });
+        Object.defineProperty(process, 'stderr', { value: processStderr, writable: true });
+
+        try {
+            consoleStamp(console, {
+                format: ':label',
+                stdout: customStdout,
+                stderr: customStderr,
+                dual: true,
+                level: 'debug',
+            });
+
+            console.log(message);
+            console.warn(message);
+            console.error(message);
+
+            // Custom streams should have the output
+            expect(customStdout.length).toEqual(1);
+            expect(customStdout.asArray[0]).toContain(message);
+            expect(customStderr.length).toEqual(2);
+            expect(customStderr.asArray[0]).toContain(message);
+            expect(customStderr.asArray[1]).toContain(message);
+
+            // Process streams should also have the output (dual mode)
+            expect(processStdout.length).toEqual(1);
+            expect(processStdout.asArray[0]).toContain(message);
+            expect(processStderr.length).toEqual(2);
+            expect(processStderr.asArray[0]).toContain(message);
+            expect(processStderr.asArray[1]).toContain(message);
+        } finally {
+            // Restore process streams
+            Object.defineProperty(process, 'stdout', { value: originalProcessStdout, writable: true });
+            Object.defineProperty(process, 'stderr', { value: originalProcessStderr, writable: true });
+        }
+    });
+
+    it('should not duplicate output when custom stream equals process stream', () => {
+        const processStdout = new SpyStream();
+        const processStderr = new SpyStream();
+
+        // Replace process streams temporarily
+        const originalProcessStdout = process.stdout;
+        const originalProcessStderr = process.stderr;
+        Object.defineProperty(process, 'stdout', { value: processStdout, writable: true });
+        Object.defineProperty(process, 'stderr', { value: processStderr, writable: true });
+
+        try {
+            // Use process.stdout/stderr as custom streams (same as process streams)
+            consoleStamp(console, {
+                format: ':label',
+                stdout: processStdout,
+                stderr: processStderr,
+                dual: true,
+                level: 'debug',
+            });
+
+            console.log(message);
+            console.warn(message);
+
+            // Should only have 1 output per method (no duplication)
+            expect(processStdout.length).toEqual(1);
+            expect(processStderr.length).toEqual(1);
+        } finally {
+            // Restore process streams
+            Object.defineProperty(process, 'stdout', { value: originalProcessStdout, writable: true });
+            Object.defineProperty(process, 'stderr', { value: originalProcessStderr, writable: true });
+        }
+    });
 });
