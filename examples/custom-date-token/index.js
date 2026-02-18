@@ -1,14 +1,17 @@
-const console_stamp = require( '../../index' );
+import consoleStamp from '../../dist/index.js';
 
-console_stamp( console, {
+consoleStamp(console, {
     format: ':mydate() :label(7)',
-    tokens:{
-        mydate: ({params}) => {
-            // noinspection JSCheckFunctionSignatures
-            return `[${new Intl.DateTimeFormat('no-NB', { dateStyle: 'long', timeStyle: 'medium' }).format(new Date())}]`;
-        }
-    }
-} );
+    tokens: {
+        mydate: () => {
+            const formatter = new Intl.DateTimeFormat('no-NB', {
+                dateStyle: 'long',
+                timeStyle: 'medium',
+            });
+            return `[${formatter.format(new Date())}]`;
+        },
+    },
+});
 
 console.debug('This is a console.debug message');
 console.log('This is a console.log message');
